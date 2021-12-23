@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :paragraph do
     story { Story.new }
-    author { FactoryBot.create(:user) }
+    author { User.first || FactoryBot.create(:user) }
     position { 1 }
-    content { "Once upon a time, in a land far, far away…" }
+    content { Faker::Lorem.paragraph_by_chars(number: 200) }
   end
 end

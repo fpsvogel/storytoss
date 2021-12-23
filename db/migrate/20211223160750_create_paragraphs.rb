@@ -10,7 +10,7 @@ class CreateParagraphs < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :paragraphs, :position, unique: true
-    add_index :paragraphs, :score, unique: true
+    add_index :paragraphs, :position
+    add_index :paragraphs, :score
   end
 end

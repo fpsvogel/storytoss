@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 2021_12_23_160750) do
     t.bigint "story_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["position"], name: "index_paragraphs_on_position", unique: true
-    t.index ["score"], name: "index_paragraphs_on_score", unique: true
+    t.index ["position"], name: "index_paragraphs_on_position"
+    t.index ["score"], name: "index_paragraphs_on_score"
     t.index ["story_id"], name: "index_paragraphs_on_story_id"
     t.index ["user_id"], name: "index_paragraphs_on_user_id"
   end
