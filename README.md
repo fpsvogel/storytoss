@@ -1,6 +1,6 @@
 <h1 align="center">✏️ Story Toss ⚾</h1>
 
-Welcome to the [Story Toss](https://storytoss.herokuapp.com/) codebase. I built this app as an exercise which [you can read all about on my blog](https://fpsvogel.com/posts/2021/pass-the-story-collaborative-writing). It served as a mini capstone project after I read Jason Swett's [Complete Guide to Rails Testing](https://www.codewithjason.com/complete-guide-to-rails-testing/).
+Welcome to the [Story Toss](https://storytoss.herokuapp.com/) codebase. *Note: This is a work in progress.* I am building this app as an exercise to improve my Rails testing skills. It served as a mini capstone project after I read Jason Swett's [Complete Guide to Rails Testing](https://www.codewithjason.com/complete-guide-to-rails-testing/).
 
 ### Table of Contents
 
