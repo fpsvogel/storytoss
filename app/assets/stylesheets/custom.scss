@@ -1,3 +1,7 @@
+:root {
+  --primary-light: #c1c0bd !important;
+}
+
 html.dark body {
   background: #41403e;
 }
@@ -15,4 +19,11 @@ body {
 
 #footer {
   margin-top: auto;
+}
+
+// fix for https://github.com/papercss/papercss/issues/243
+nav {
+  .bar1, .bar2, .bar3 {
+    height: 0.3rem;
+  }
 }

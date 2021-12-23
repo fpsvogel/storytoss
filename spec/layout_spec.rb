@@ -6,5 +6,10 @@ RSpec.describe "Site layout", type: :system do
       visit stories_index_path
       expect(page).to have_selector('#footer')
     end
+
+    it "has a header" do
+      visit stories_index_path
+      expect(page).to have_selector('nav')
+    end
   end
 end
