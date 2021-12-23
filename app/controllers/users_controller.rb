@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       auto_login(@user)
-      redirect_to stories_index_path, notice: "Registration successful."
+      redirect_to stories_index_path, success: "Registration successful."
     else
       render :new, status: :see_other
     end
