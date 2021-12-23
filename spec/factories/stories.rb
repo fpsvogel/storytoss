@@ -3,7 +3,7 @@ FactoryBot.define do
     transient do
       random_paragraphs_count { 0 }
       manual_contents { [] }
-      # manual_scores { [] }
+      manual_likes { [] }
       manual_positions { [] }
     end
 
@@ -13,8 +13,8 @@ FactoryBot.define do
       end
       manual = manual_contents.map.with_index do |content, i|
         association(:paragraph, content: content,
-                                position: manual_positions[i] || random.count + 1 + i)
-                                # reactions: manual_scores[i] || 0)
+                                position: manual_positions[i] || random.count + 1 + i,
+                                likes: manual_likes[i] || 0)
       end
       random + manual
     end
