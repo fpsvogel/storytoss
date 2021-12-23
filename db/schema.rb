@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_23_020952) do
+ActiveRecord::Schema.define(version: 2021_12_23_160750) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "paragraphs", force: :cascade do |t|
+    t.integer "position"
+    t.text "content"
+    t.integer "score", default: 0
+    t.bigint "user_id", null: false
+    t.bigint "story_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["position"], name: "index_paragraphs_on_position", unique: true
+    t.index ["score"], name: "index_paragraphs_on_score", unique: true
+    t.index ["story_id"], name: "index_paragraphs_on_story_id"
+    t.index ["user_id"], name: "index_paragraphs_on_user_id"
+  end
+
+  create_table "stories", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
@@ -29,4 +48,6 @@ ActiveRecord::Schema.define(version: 2021_12_23_020952) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "paragraphs", "stories"
+  add_foreign_key "paragraphs", "users"
 end
