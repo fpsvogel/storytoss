@@ -1,6 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe Paragraph, type: :model do
+  describe "#score" do
+    let!(:paragraph) { create(:paragraph) }
+
+    it "correctly sums up likes and dislikes" do
+      paragraph.reactions << create(:like_reaction)
+      paragraph.reactions << create(:dislike_reaction)
+      paragraph.reactions << create(:dislike_reaction)
+      score = paragraph.score
+      expect(score).to eq(-1)
+    end
+  end
+
   describe "validation fails" do
     context "when required attributes are blank" do
       let!(:paragraph) { Paragraph.new(position: nil,

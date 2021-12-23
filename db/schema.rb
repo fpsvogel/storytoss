@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_23_160750) do
+ActiveRecord::Schema.define(version: 2021_12_23_185435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,15 +18,24 @@ ActiveRecord::Schema.define(version: 2021_12_23_160750) do
   create_table "paragraphs", force: :cascade do |t|
     t.integer "position"
     t.text "content"
-    t.integer "score", default: 0
     t.bigint "user_id", null: false
     t.bigint "story_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["position"], name: "index_paragraphs_on_position"
-    t.index ["score"], name: "index_paragraphs_on_score"
     t.index ["story_id"], name: "index_paragraphs_on_story_id"
     t.index ["user_id"], name: "index_paragraphs_on_user_id"
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.boolean "like"
+    t.bigint "paragraph_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["like"], name: "index_reactions_on_like"
+    t.index ["paragraph_id"], name: "index_reactions_on_paragraph_id"
+    t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
   create_table "stories", force: :cascade do |t|
@@ -50,4 +59,6 @@ ActiveRecord::Schema.define(version: 2021_12_23_160750) do
 
   add_foreign_key "paragraphs", "stories"
   add_foreign_key "paragraphs", "users"
+  add_foreign_key "reactions", "paragraphs"
+  add_foreign_key "reactions", "users"
 end

@@ -1,7 +1,7 @@
 class Paragraph < ApplicationRecord
   belongs_to :story
-  belongs_to :user
-  alias_attribute :author, :user
+  belongs_to :author, class_name: "User", foreign_key: "user_id"
+  has_many :reactions
 
   MAX_POSITION = 10
   MAX_LENGTH = 280
@@ -20,4 +20,10 @@ class Paragraph < ApplicationRecord
             numericality: { only_integer: true }
 
   attribute :score, :integer, default: 0
+
+  def score
+    likes = reactions.where(like: true).count
+    dislikes = reactions.where(like: false).count
+    likes - dislikes
+  end
 end

@@ -3,7 +3,6 @@ class CreateParagraphs < ActiveRecord::Migration[7.0]
     create_table :paragraphs do |t|
       t.integer :position
       t.text :content
-      t.integer :score, default: 0
       t.references :user, null: false, foreign_key: true
       t.references :story, null: false, foreign_key: true
 
@@ -11,6 +10,5 @@ class CreateParagraphs < ActiveRecord::Migration[7.0]
     end
 
     add_index :paragraphs, :position
-    add_index :paragraphs, :score
   end
 end
