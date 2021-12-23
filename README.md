@@ -14,6 +14,14 @@ Welcome to the [Story Toss](https://storytoss.herokuapp.com/) codebase. I built 
 
 In building this app, I followed a more test-centric development process than I had ever done before, at least in Rails.
 
+Here are the testing rules of thumb that I set for myself at the beginning of this project:
+
+1. When I add a feature, write tests for it before working on anything else.
+2. Don't commit before writing tests for the new/modified code.
+3. When I'm building a model, use TDD as much as possible.
+
+I'm happy to report that on the whole I followed these rules, and by the end of the project the approach felt more natural. I didn't have to remind myself as often to write tests before committing, because the habit of testing had become a bit more ingrained into my development process.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/fpsvogel/storytoss.
