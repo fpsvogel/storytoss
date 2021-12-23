@@ -1,0 +1,5 @@
+<% flash.each do |type, message| %>
+  <% unless type.end_with?("_lower") %>
+    <%= render 'shared/flash', type: type, message: message %>
+  <% end %>
+<% end %>

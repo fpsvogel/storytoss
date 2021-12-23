@@ -11,8 +11,9 @@
     </label>
     <div class="collapsible-body">
       <ul class="inline">
-        <li><a href="#">Register</a></li>
-        <li><a href="#">Log in</a></li>
+        <li><%= link_to "Register", register_path %></li>
+        <li><%= link_to "Log in", login_path %></li>
+        <li><%= link_to "Log out", logout_path, "data-turbo-method": :delete %></li>
         <li><a href="#">About</a></li>
       </ul>
     </div>

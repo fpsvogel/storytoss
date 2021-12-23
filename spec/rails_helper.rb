@@ -31,6 +31,11 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  # this makes two shortcuts available:
+  # login_user(user, login_url, :post)
+  # logout_user
+  config.include Sorcery::TestHelpers::Rails::Integration, type: :system
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
