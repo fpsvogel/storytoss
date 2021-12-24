@@ -1,16 +1,17 @@
 class Paragraph < ApplicationRecord
-  belongs_to :story, optional: true
+  belongs_to :story
   belongs_to :author,
-             class_name: "User",
-             foreign_key: "user_id"
+              class_name: "User",
+              foreign_key: "user_id"
   belongs_to :previous,
-             class_name: "Paragraph",
-             optional: true
+              class_name: "Paragraph",
+              optional: true
   alias_attribute :previous_paragraph, :previous
   has_many :continuations,
-           class_name: "Paragraph",
-           foreign_key: "previous_id"
-  has_many :reactions
+            class_name: "Paragraph",
+            foreign_key: "previous_id"
+  has_many :likes
+  has_many :dislikes
 
   MAX_LENGTH = 280
   MAX_LEVEL = 10
@@ -22,9 +23,7 @@ class Paragraph < ApplicationRecord
   validate :validate_level_under_maximum
 
   def score
-    likes = reactions.where(like: true).count
-    dislikes = reactions.where(like: false).count
-    likes - dislikes
+    likes.count - dislikes.count
   end
 
   def continuations_sorted
@@ -34,10 +33,14 @@ class Paragraph < ApplicationRecord
   def continue(paragraph = nil, content: nil, author: nil)
     if paragraph
       continuations << paragraph
+      paragraph.story = story
+      paragraph.save
       continuation = paragraph
     else
       raise ArgumentError if content.nil? || author.nil?
-      continuation = continuations.create(content: content, author: author)
+      continuation = continuations.create(content: content,
+                                          author: author,
+                                          story: story)
     end
     continuation
   end

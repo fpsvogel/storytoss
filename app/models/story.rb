@@ -1,5 +1,6 @@
 class Story < ApplicationRecord
   has_one :first_paragraph, class_name: "Paragraph"
+  has_many :paragraphs
 
   BRANCH_ID_SEPARATOR = "."
 
@@ -16,5 +17,9 @@ class Story < ApplicationRecord
       current_paragraph = current_paragraph.continuations.find(paragraph_id)
     end
     current_paragraph
+  end
+
+  def score
+    paragraphs.sum(&:likes_count) - paragraphs.sum(&:dislikes_count)
   end
 end

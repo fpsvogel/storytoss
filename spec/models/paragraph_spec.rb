@@ -2,24 +2,26 @@ require 'rails_helper'
 
 RSpec.describe Paragraph, type: :model do
   describe "#score" do
-    let!(:downvoted_paragraph) { create(:paragraph, likes: 1, dislikes: 2) }
+    let!(:paragraph) do
+      create(:paragraph, likes_count: 1, dislikes_count: 2)
+    end
 
     it "correctly sums up likes and dislikes" do
-      expect(downvoted_paragraph.score).to eq(-1)
+      expect(paragraph.score).to eq(-1)
     end
   end
 
   describe "#continuations_sorted" do
     let!(:higher_score) { 10 }
-    let!(:continued_paragraph) do
+    let!(:paragraph) do
       par = create(:paragraph)
-      par.continuations << create(:paragraph, likes: higher_score - 1)
-      par.continuations << create(:paragraph, likes: higher_score)
+      par.continuations << create(:paragraph, likes_count: higher_score - 1)
+      par.continuations << create(:paragraph, likes_count: higher_score)
       par
     end
 
     it "sorts continuations in descending order" do
-      expect(continued_paragraph.continuations_sorted.first.score).to eq higher_score
+      expect(paragraph.continuations_sorted.first.score).to eq higher_score
     end
   end
 

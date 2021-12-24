@@ -29,20 +29,31 @@ RSpec.describe Story, type: :model do
     end
     let!(:first_paragraph_id) { story.first_paragraph.id }
     let!(:last_paragraph_id) { @last_id }
+    let!(:last_branch_id) do
+      random_branch_id = ((first_paragraph_id + 1)..(first_paragraph_id + last_level - 2))
+                            .map(&:to_s)
+                            .join(Story::BRANCH_ID_SEPARATOR)
+      random_branch_id + "#{Story::BRANCH_ID_SEPARATOR}#{last_paragraph_id}"
+    end
 
     it "returns the correct paragraph" do
       last_paragraph = story.paragraph_at(last_branch_id)
       expect(last_paragraph.content).to eq last_contents.second
     end
+  end
 
-    private
+  describe "#score" do
+    let!(:story) do
+      the_story = create(:story)
+      the_story.first_paragraph
+               .continue(create(:paragraph, likes_count: 12, dislikes_count: 1))
+      the_story.first_paragraph
+               .continue(create(:paragraph, likes_count: 25, dislikes_count: 5))
+      the_story
+    end
 
-    def last_branch_id
-      random_branch_id = ((first_paragraph_id + 1)..(first_paragraph_id + last_level - 2))
-                          .map(&:to_s)
-                          .join(Story::BRANCH_ID_SEPARATOR)
-      random_branch_id +
-        "#{Story::BRANCH_ID_SEPARATOR}#{last_paragraph_id}"
+    it "returns the sum of all paragraph scores" do
+      expect(story.score).to eq 31
     end
   end
 end
