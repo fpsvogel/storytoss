@@ -20,7 +20,7 @@ Here are the testing rules of thumb that I set for myself at the beginning of th
 2. Don't commit before writing tests for the new/modified code.
 3. When I'm building a model, use TDD as much as possible.
 
-I'm happy to report that on the whole I followed these rules, and by the end of the project the approach felt more natural. I didn't have to remind myself as often to write tests before committing, because the habit of testing had become a bit more ingrained into my development process.
+By the end of the project, these rules felt less like rules and more like just plain writing code. I didn't have to remind myself as often to write tests before committing, because the habit of testing had become a more seamless part my development process. And the more I did it, the more grateful I was that I did: more than once an obscure bug came up that I found within a few minutes thanks to my tests. I shudder to think of the hours it might have otherwise taken me to track down those bugs.
 
 ## Contributing
 
