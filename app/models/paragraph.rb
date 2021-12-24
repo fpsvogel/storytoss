@@ -17,12 +17,6 @@ class Paragraph < ApplicationRecord
             presence: true,
             length: { maximum: MAX_LENGTH }
 
-  validates :score,
-            presence: true,
-            numericality: { only_integer: true }
-
-  attribute :score, :integer, default: 0
-
   def score
     likes = reactions.where(like: true).count
     dislikes = reactions.where(like: false).count

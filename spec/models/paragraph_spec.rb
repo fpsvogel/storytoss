@@ -44,23 +44,5 @@ RSpec.describe Paragraph, type: :model do
         expect(paragraph.errors[:content]).to eq [message]
       end
     end
-
-    context "when score is not an integer" do
-      let!(:paragraph) { build(:paragraph, score: 1.5) }
-
-      it "is invalid" do
-        message = "must be an integer"
-        expect(paragraph).to_not be_valid
-        expect(paragraph.errors[:score]).to eq [message]
-      end
-    end
-  end
-
-  describe "default values" do
-    let!(:paragraph) { build(:paragraph) }
-
-    it "has a default score of zero" do
-      expect(paragraph.score).to eq 0
-    end
   end
 end
