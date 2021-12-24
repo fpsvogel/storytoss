@@ -20,6 +20,6 @@ class Story < ApplicationRecord
   end
 
   def score
-    paragraphs.sum(&:likes_count) - paragraphs.sum(&:dislikes_count)
+    paragraphs.sum(&:score)
   end
 end

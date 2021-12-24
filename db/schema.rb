@@ -35,8 +35,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_191659) do
 
   create_table "paragraphs", force: :cascade do |t|
     t.text "content"
-    t.integer "likes_count", default: 0
-    t.integer "dislikes_count", default: 0
+    t.integer "score", default: 0
     t.bigint "user_id", null: false
     t.bigint "story_id", null: false
     t.bigint "previous_paragraph_id"

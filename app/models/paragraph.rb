@@ -23,12 +23,8 @@ class Paragraph < ApplicationRecord
 
   validate :validate_level_under_maximum
 
-  def score
-    likes.count - dislikes.count
-  end
-
   def next_paragraphs_sorted
-    nexts.to_a.sort_by(&:score).reverse
+    nexts.order('score DESC')
   end
 
   alias_method :nexts_sorted, :next_paragraphs_sorted
