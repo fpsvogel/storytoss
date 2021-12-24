@@ -23,6 +23,32 @@ RSpec.describe Paragraph, type: :model do
     end
   end
 
+  describe "#continue" do
+    let!(:continuation) { create(:paragraph) }
+    let!(:continued_by_paragraph) do
+      par = create(:paragraph)
+      par.continue(continuation)
+      par
+    end
+    let!(:continued_by_content_and_author) do
+      par = create(:paragraph)
+      par.continue(content: continuation.content, author: continuation.author)
+      par
+    end
+
+    it "accepts either a paragraph or attributes" do
+      by_par_cont = continued_by_paragraph.continuations
+      by_attr_cont = continued_by_content_and_author.continuations
+      expect(by_par_cont.count).to eq by_attr_cont.count
+      expect(by_par_cont.map(&:content)).to eq by_attr_cont.map(&:content)
+      expect(by_par_cont.map(&:author)).to eq by_attr_cont.map(&:author)
+    end
+
+    it "returns the continuation" do
+      expect(create(:paragraph).continue(continuation)).to eq continuation
+    end
+  end
+
   describe "validation fails" do
     context "when required attributes are blank" do
       let!(:paragraph) { Paragraph.new(content: "") }
@@ -49,9 +75,7 @@ RSpec.describe Paragraph, type: :model do
       let!(:paragraph) do
         current = create(:paragraph)
         (Paragraph::MAX_LEVEL).times do
-          continuation = create(:paragraph)
-          current.continuations << continuation
-          current = continuation
+          current = current.continue(create(:paragraph))
         end
         current
       end

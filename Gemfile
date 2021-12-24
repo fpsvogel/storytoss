@@ -57,6 +57,9 @@ group :development, :test do
 end
 
 group :development do
+  # Progress bar for seeding the database [https://github.com/jfelchner/ruby-progressbar]
+  gem 'ruby-progressbar'
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 

@@ -1,5 +1,5 @@
 class Paragraph < ApplicationRecord
-  belongs_to :story
+  belongs_to :story, optional: true
   belongs_to :author,
              class_name: "User",
              foreign_key: "user_id"
@@ -29,6 +29,17 @@ class Paragraph < ApplicationRecord
 
   def continuations_sorted
     continuations.to_a.sort_by(&:score).reverse
+  end
+
+  def continue(paragraph = nil, content: nil, author: nil)
+    if paragraph
+      continuations << paragraph
+      continuation = paragraph
+    else
+      raise ArgumentError if content.nil? || author.nil?
+      continuation = continuations.create(content: content, author: author)
+    end
+    continuation
   end
 
   private

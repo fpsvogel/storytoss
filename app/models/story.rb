@@ -3,6 +3,12 @@ class Story < ApplicationRecord
 
   BRANCH_ID_SEPARATOR = "."
 
+  def self.start(content:, author:)
+    story = create
+    story.create_first_paragraph(content: content, author: author)
+    story
+  end
+
   def paragraph_at(branch_id)
     paragraph_ids = branch_id.split(BRANCH_ID_SEPARATOR)
     current_paragraph = first_paragraph

@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe Story, type: :model do
+  describe ".start" do
+    let!(:content) { Faker::Lorem.paragraph_by_chars(number: 200) }
+    let!(:author) { create(:user) }
+
+    it "creates a new story with a first paragraph" do
+      story = Story.start(content: content, author: author)
+      expect(story.first_paragraph.content).to eq content
+      expect(story.first_paragraph.author).to eq author
+    end
+  end
+
   describe "#paragraph_at" do
     let!(:last_level) { 6 }
     let!(:last_contents) { ["And then there were none.", "And then there were still a few."] }

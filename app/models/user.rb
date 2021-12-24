@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
 
+  has_many :paragraphs
   has_many :reactions
 
   validates :password,

@@ -16,13 +16,13 @@ ActiveRecord::Schema.define(version: 2021_12_23_185435) do
   enable_extension "plpgsql"
 
   create_table "paragraphs", force: :cascade do |t|
-    t.integer "position"
     t.text "content"
     t.bigint "user_id", null: false
-    t.bigint "story_id", null: false
+    t.bigint "story_id"
+    t.bigint "previous_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["position"], name: "index_paragraphs_on_position"
+    t.index ["previous_id"], name: "index_paragraphs_on_previous_id"
     t.index ["story_id"], name: "index_paragraphs_on_story_id"
     t.index ["user_id"], name: "index_paragraphs_on_user_id"
   end
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2021_12_23_185435) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "paragraphs", "paragraphs", column: "previous_id"
   add_foreign_key "paragraphs", "stories"
   add_foreign_key "paragraphs", "users"
   add_foreign_key "reactions", "paragraphs"
