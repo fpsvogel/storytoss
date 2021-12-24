@@ -34,7 +34,7 @@ RSpec.describe Paragraph, type: :model do
       end
     end
 
-    context "when content is longer than the maximum" do
+    context "when the content is longer than the maximum" do
       let!(:paragraph) { build_stubbed(:paragraph,
                                        content: "a" * (Paragraph::MAX_LENGTH + 1)) }
 
@@ -49,9 +49,9 @@ RSpec.describe Paragraph, type: :model do
       let!(:paragraph) do
         current = create(:paragraph)
         (Paragraph::MAX_LEVEL).times do
-          next_par = create(:paragraph)
-          current.continuations << next_par
-          current = next_par
+          continuation = create(:paragraph)
+          current.continuations << continuation
+          current = continuation
         end
         current
       end

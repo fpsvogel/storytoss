@@ -19,7 +19,7 @@ class Paragraph < ApplicationRecord
             presence: true,
             length: { maximum: MAX_LENGTH }
 
-  validate :level_under_maximum
+  validate :validate_level_under_maximum
 
   def score
     likes = reactions.where(like: true).count
@@ -33,7 +33,7 @@ class Paragraph < ApplicationRecord
 
   private
 
-  def level_under_maximum
+  def validate_level_under_maximum
     ancestor_paragraph = self
     levels = 1
     loop do
