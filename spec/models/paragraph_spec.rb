@@ -44,5 +44,23 @@ RSpec.describe Paragraph, type: :model do
         expect(paragraph.errors[:content]).to eq [message]
       end
     end
+
+    context "when the level is higher than the maximum" do
+      let!(:paragraph) do
+        current = create(:paragraph)
+        (Paragraph::MAX_LEVEL).times do
+          next_par = create(:paragraph)
+          current.continuations << next_par
+          current = next_par
+        end
+        current
+      end
+
+      it "is invalid" do
+        message = "exceeded the story length"
+        expect(paragraph).to_not be_valid
+        expect(paragraph.errors[:base]).to eq [message]
+      end
+    end
   end
 end
