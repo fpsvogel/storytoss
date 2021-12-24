@@ -9,7 +9,7 @@ FactoryBot.define do
       remaining_random = random_paragraphs_count - 1
       current = first
       remaining_random.times do
-        current = current.continue(create(:paragraph))
+        current = current.add_next(create(:paragraph))
       end
       first
     end

@@ -11,43 +11,43 @@ RSpec.describe Paragraph, type: :model do
     end
   end
 
-  describe "#continuations_sorted" do
+  describe "#next_paragraphs_sorted" do
     let!(:higher_score) { 10 }
     let!(:paragraph) do
       par = create(:paragraph)
-      par.continuations << create(:paragraph, likes_count: higher_score - 1)
-      par.continuations << create(:paragraph, likes_count: higher_score)
+      par.nexts << create(:paragraph, likes_count: higher_score - 1)
+      par.nexts << create(:paragraph, likes_count: higher_score)
       par
     end
 
-    it "sorts continuations in descending order" do
-      expect(paragraph.continuations_sorted.first.score).to eq higher_score
+    it "sorts next paragraphs in descending order" do
+      expect(paragraph.next_paragraphs_sorted.first.score).to eq higher_score
     end
   end
 
-  describe "#continue" do
-    let!(:continuation) { create(:paragraph) }
-    let!(:continued_by_paragraph) do
+  describe "#add_next" do
+    let!(:next_paragraph) { create(:paragraph) }
+    let!(:previous_by_paragraph) do
       par = create(:paragraph)
-      par.continue(continuation)
+      par.add_next(next_paragraph)
       par
     end
-    let!(:continued_by_content_and_author) do
+    let!(:previous_by_content_and_author) do
       par = create(:paragraph)
-      par.continue(content: continuation.content, author: continuation.author)
+      par.add_next(content: next_paragraph.content, author: next_paragraph.author)
       par
     end
 
     it "accepts either a paragraph or attributes" do
-      by_par_cont = continued_by_paragraph.continuations
-      by_attr_cont = continued_by_content_and_author.continuations
-      expect(by_par_cont.count).to eq by_attr_cont.count
-      expect(by_par_cont.map(&:content)).to eq by_attr_cont.map(&:content)
-      expect(by_par_cont.map(&:author)).to eq by_attr_cont.map(&:author)
+      by_par = previous_by_paragraph.next_paragraphs
+      by_attr = previous_by_content_and_author.next_paragraphs
+      expect(by_par.count).to eq by_attr.count
+      expect(by_par.map(&:content)).to eq by_attr.map(&:content)
+      expect(by_par.map(&:author)).to eq by_attr.map(&:author)
     end
 
-    it "returns the continuation" do
-      expect(create(:paragraph).continue(continuation)).to eq continuation
+    it "returns the next paragraph" do
+      expect(create(:paragraph).add_next(next_paragraph)).to eq next_paragraph
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe Paragraph, type: :model do
       let!(:paragraph) do
         current = create(:paragraph)
         (Paragraph::MAX_LEVEL).times do
-          current = current.continue(create(:paragraph))
+          current = current.add_next(create(:paragraph))
         end
         current
       end

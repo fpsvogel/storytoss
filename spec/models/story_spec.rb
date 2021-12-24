@@ -19,11 +19,11 @@ RSpec.describe Story, type: :model do
       the_story = create(:story, random_paragraphs_count: last_level - 1)
       paragraph = the_story.first_paragraph
       (last_level - 2).times do
-        paragraph = paragraph.continuations.first
+        paragraph = paragraph.next_paragraphs.first
       end
-      paragraph.continuations << create(:paragraph, content: last_contents.first)
+      paragraph.next_paragraphs << create(:paragraph, content: last_contents.first)
       last_paragraph = create(:paragraph, content: last_contents.second)
-      paragraph.continuations << last_paragraph
+      paragraph.next_paragraphs << last_paragraph
       @last_id = last_paragraph.id
       the_story
     end
@@ -46,9 +46,9 @@ RSpec.describe Story, type: :model do
     let!(:story) do
       the_story = create(:story)
       the_story.first_paragraph
-               .continue(create(:paragraph, likes_count: 12, dislikes_count: 1))
+               .add_next(create(:paragraph, likes_count: 12, dislikes_count: 1))
       the_story.first_paragraph
-               .continue(create(:paragraph, likes_count: 25, dislikes_count: 5))
+               .add_next(create(:paragraph, likes_count: 25, dislikes_count: 5))
       the_story
     end
 

@@ -14,7 +14,7 @@ class Story < ApplicationRecord
     paragraph_ids = branch_id.split(BRANCH_ID_SEPARATOR)
     current_paragraph = first_paragraph
     paragraph_ids.each do |paragraph_id|
-      current_paragraph = current_paragraph.continuations.find(paragraph_id)
+      current_paragraph = current_paragraph.next_paragraphs.find(paragraph_id)
     end
     current_paragraph
   end

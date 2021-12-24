@@ -39,10 +39,10 @@ ActiveRecord::Schema.define(version: 2021_12_24_191659) do
     t.integer "dislikes_count", default: 0
     t.bigint "user_id", null: false
     t.bigint "story_id", null: false
-    t.bigint "previous_id"
+    t.bigint "previous_paragraph_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["previous_id"], name: "index_paragraphs_on_previous_id"
+    t.index ["previous_paragraph_id"], name: "index_paragraphs_on_previous_paragraph_id"
     t.index ["story_id"], name: "index_paragraphs_on_story_id"
     t.index ["user_id"], name: "index_paragraphs_on_user_id"
   end
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2021_12_24_191659) do
   add_foreign_key "dislikes", "users"
   add_foreign_key "likes", "paragraphs"
   add_foreign_key "likes", "users"
-  add_foreign_key "paragraphs", "paragraphs", column: "previous_id"
+  add_foreign_key "paragraphs", "paragraphs", column: "previous_paragraph_id"
   add_foreign_key "paragraphs", "stories"
   add_foreign_key "paragraphs", "users"
 end

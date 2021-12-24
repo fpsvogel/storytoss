@@ -23,15 +23,15 @@ def branch(paragraph, current_level)
   return false unless rand < ALTERNATIVE_PARAGRAPH_PROBABILITY
   branch_tip = paragraph
   (Paragraph::MAX_LEVEL - current_level).times do
-    branch_tip = branch_tip.continue(content: random_paragraph_content,
+    branch_tip = branch_tip.add_next(content: random_paragraph_content,
                                      author: random_user)
-    break unless rand < ALTERNATIVE_CONTINUE_PROBABILITY
+    break unless rand < ALTERNATIVE_ADD_PROBABILITY
   end
   true
 end
 
-def continue(paragraph)
-  paragraph.continue(content: random_paragraph_content, author: random_user)
+def add_next(paragraph)
+  paragraph.add_next(content: random_paragraph_content, author: random_user)
 end
 
 STORIES_TO_CREATE.times do
@@ -39,7 +39,7 @@ STORIES_TO_CREATE.times do
   last_paragraph = story.first_paragraph
   (last_level - 1).times do |level|
     loop { break unless branch(last_paragraph, level) }
-    last_paragraph = continue(last_paragraph)
+    last_paragraph = add_next(last_paragraph)
   end
   progressbar.increment
 end

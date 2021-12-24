@@ -3,13 +3,14 @@ class Paragraph < ApplicationRecord
   belongs_to :author,
               class_name: "User",
               foreign_key: "user_id"
-  belongs_to :previous,
+  belongs_to :previous_paragraph,
               class_name: "Paragraph",
               optional: true
-  alias_attribute :previous_paragraph, :previous
-  has_many :continuations,
+  alias_attribute :previous, :previous_paragraph
+  has_many :next_paragraphs,
             class_name: "Paragraph",
-            foreign_key: "previous_id"
+            foreign_key: "previous_paragraph_id"
+  alias_attribute :nexts, :next_paragraphs
   has_many :likes
   has_many :dislikes
 
@@ -26,24 +27,28 @@ class Paragraph < ApplicationRecord
     likes.count - dislikes.count
   end
 
-  def continuations_sorted
-    continuations.to_a.sort_by(&:score).reverse
+  def next_paragraphs_sorted
+    nexts.to_a.sort_by(&:score).reverse
   end
 
-  def continue(paragraph = nil, content: nil, author: nil)
+  alias_method :nexts_sorted, :next_paragraphs_sorted
+
+  def add_next_paragraph(paragraph = nil, content: nil, author: nil)
     if paragraph
-      continuations << paragraph
+      next_paragraphs << paragraph
       paragraph.story = story
       paragraph.save
-      continuation = paragraph
+      added_paragraph = paragraph
     else
       raise ArgumentError if content.nil? || author.nil?
-      continuation = continuations.create(content: content,
-                                          author: author,
-                                          story: story)
+      added_paragraph = next_paragraphs.create(content: content,
+                                               author: author,
+                                               story: story)
     end
-    continuation
+    added_paragraph
   end
+
+  alias_method :add_next, :add_next_paragraph
 
   def to_s
     content
