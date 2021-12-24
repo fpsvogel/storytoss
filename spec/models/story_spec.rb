@@ -1,26 +1,37 @@
 require 'rails_helper'
 
 RSpec.describe Story, type: :model do
-  describe "#paragraphs_at" do
-    let!(:last_position) { 6 }
-    let!(:last_likes) { [1, 2] }
+  describe "#paragraph_at" do
+    let!(:last_level) { 6 }
     let!(:last_contents) { ["And then there were none.", "And then there were still a few."] }
     let!(:story) do
-      create(:story, random_paragraphs_count: last_position - 1,
-                     manual_contents: last_contents,
-                     manual_likes: last_likes,
-                     manual_positions: [last_position, last_position])
+      the_story = create(:story, random_paragraphs_count: last_level - 1)
+      paragraph = the_story.first_paragraph
+      (last_level - 2).times do
+        paragraph = paragraph.continuations.first
       end
+      paragraph.continuations << create(:paragraph, content: last_contents.first)
+      last_paragraph = create(:paragraph, content: last_contents.second)
+      paragraph.continuations << last_paragraph
+      @last_id = last_paragraph.id
+      the_story
+    end
+    let!(:first_paragraph_id) { story.first_paragraph.id }
+    let!(:last_paragraph_id) { @last_id }
 
-    it "returns the correct paragraphs" do
-      last_paragraphs = story.paragraphs_at(last_position)
-      expect(last_paragraphs.count).to eq last_contents.count
-      expect(last_paragraphs.to_a.map(&:content).sort).to eq last_contents.sort
+    it "returns the correct paragraph" do
+      last_paragraph = story.paragraph_at(last_branch_id)
+      expect(last_paragraph.content).to eq last_contents.second
     end
 
-    it "returns the paragraphs in descending order of score" do
-      at_last = story.paragraphs_at(last_position)
-      expect(at_last.first.score).to eq last_likes.max
+    private
+
+    def last_branch_id
+      random_branch_id = ((first_paragraph_id + 1)..(first_paragraph_id + last_level - 2))
+                          .map(&:to_s)
+                          .join(Story::BRANCH_ID_SEPARATOR)
+      random_branch_id +
+        "#{Story::BRANCH_ID_SEPARATOR}#{last_paragraph_id}"
     end
   end
 end

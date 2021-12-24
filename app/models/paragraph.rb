@@ -1,15 +1,17 @@
 class Paragraph < ApplicationRecord
   belongs_to :story
-  belongs_to :author, class_name: "User", foreign_key: "user_id"
+  belongs_to :author,
+             class_name: "User",
+             foreign_key: "user_id"
+  belongs_to :previous,
+             class_name: "Paragraph",
+             optional: true
+  has_many :continuations,
+           class_name: "Paragraph",
+           foreign_key: "previous_id"
   has_many :reactions
 
-  MAX_POSITION = 10
   MAX_LENGTH = 280
-
-  validates :position,
-            presence: true,
-            numericality: { in: 1..MAX_POSITION,
-                            only_integer: true }
 
   validates :content,
             presence: true,
@@ -25,5 +27,9 @@ class Paragraph < ApplicationRecord
     likes = reactions.where(like: true).count
     dislikes = reactions.where(like: false).count
     likes - dislikes
+  end
+
+  def continuations_sorted
+    continuations.to_a.sort_by(&:score).reverse
   end
 end
