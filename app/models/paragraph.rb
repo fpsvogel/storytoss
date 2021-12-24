@@ -42,6 +42,10 @@ class Paragraph < ApplicationRecord
     continuation
   end
 
+  def to_s
+    content
+  end
+
   private
 
   def validate_level_under_maximum

@@ -31,7 +31,7 @@ body {
 
 // FORMS
 
-h1 {
+h1:first-of-type, h2:first-of-type, h3:first-of-type {
   margin-top: 0;
   margin-bottom: 1.5rem;
 }
@@ -47,4 +47,30 @@ fieldset {
 
 input[type=submit] {
   margin-top: 1.2rem;
+}
+
+// STORY INDEX
+
+.story-card-link {
+  all: unset;
+  &:hover {
+    cursor: pointer;
+  }
+  .story-stats {
+    margin-left: .5rem;
+  }
+  .progress {
+    height: 1rem;
+    width:unset;
+    flex: 0.1;
+    margin-bottom: .7rem;
+  }
+  .score span:last-of-type {
+    position: relative;
+    top: 2px;
+  }
+  .story-preview {
+    margin-bottom: 0 !important;
+    flex: 1;
+  }
 }
