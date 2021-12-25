@@ -56,18 +56,25 @@ input[type=submit] {
   &:hover {
     cursor: pointer;
   }
+  .card-body {
+    padding: .7rem 1.25rem;
+  }
   .story-stats {
+    width: 2.5rem;
     margin-left: .5rem;
   }
   .progress {
-    height: 1rem;
+    height: .5rem;
     width:unset;
     flex: 0.1;
-    margin-bottom: .7rem;
+    margin-bottom: .5rem;
   }
-  .score span:last-of-type {
-    position: relative;
-    top: 2px;
+  .score {
+    text-align: right;
+    & span:last-of-type {
+      position: relative;
+      top: 2px;
+    }
   }
   .story-preview {
     margin-bottom: 0 !important;

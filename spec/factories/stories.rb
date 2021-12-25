@@ -4,14 +4,15 @@ FactoryBot.define do
       random_paragraphs_count { 1 }
     end
 
-    first_paragraph do
+    after(:create) do |story, evaluator|
+      break unless evaluator.random_paragraphs_count > 0
       first = create(:paragraph)
-      remaining_random = random_paragraphs_count - 1
+      story.update(first_paragraph: first)
+      remaining_random = evaluator.random_paragraphs_count - 1
       current = first
       remaining_random.times do
         current = current.add_next(create(:paragraph))
       end
-      first
     end
   end
 end

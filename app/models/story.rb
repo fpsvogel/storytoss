@@ -20,6 +20,11 @@ class Story < ApplicationRecord
   end
 
   def score
-    paragraphs.sum(&:score)
+    paragraphs.sum("score")
+  end
+
+  def progress
+    decimal = paragraphs.maximum("level").to_f / Paragraph::MAX_LEVEL
+    (decimal * 100).round
   end
 end

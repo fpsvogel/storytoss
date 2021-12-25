@@ -56,4 +56,12 @@ RSpec.describe Story, type: :model do
       expect(story.score).to eq 31
     end
   end
+
+  describe "#progress" do
+    let!(:story) { create(:story, random_paragraphs_count: Paragraph::MAX_LEVEL / 2) }
+
+    it "returns the percentage toward story completion" do
+      expect(story.progress).to eq 50
+    end
+  end
 end

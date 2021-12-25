@@ -21,7 +21,15 @@ class Paragraph < ApplicationRecord
             presence: true,
             length: { maximum: MAX_LENGTH }
 
+  validates :level,
+            presence: true,
+            numericality: { only_integer: true,
+                            in: 1..MAX_LEVEL }
+
   validate :validate_level_under_maximum
+
+  attribute :level, :integer, default: 1
+  attribute :score, :integer, default: 0
 
   def next_paragraphs_sorted
     nexts.order('score DESC')
@@ -32,14 +40,14 @@ class Paragraph < ApplicationRecord
   def add_next_paragraph(paragraph = nil, content: nil, author: nil)
     if paragraph
       next_paragraphs << paragraph
-      paragraph.story = story
-      paragraph.save
+      paragraph.update(story: story, level: level + 1)
       added_paragraph = paragraph
     else
       raise ArgumentError if content.nil? || author.nil?
       added_paragraph = next_paragraphs.create(content: content,
                                                author: author,
-                                               story: story)
+                                               story: story,
+                                               level: level + 1)
     end
     added_paragraph
   end
