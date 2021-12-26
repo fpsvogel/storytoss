@@ -20,11 +20,31 @@ class Story < ApplicationRecord
   end
 
   def score
-    paragraphs.sum("score")
+    calculated_score
+  end
+
+  def score_formatted
+    sprintf("%+d", score)
+  end
+
+  def score_in_a_word
+    if calculated_score > 0
+      "positive"
+    elsif calculated_score == 0
+      "zero"
+    else
+      "negative"
+    end
   end
 
   def progress
     decimal = paragraphs.maximum("level").to_f / Paragraph::MAX_LEVEL
     (decimal * 100).round
+  end
+
+  private
+
+  def calculated_score
+    @score ||= paragraphs.sum("score")
   end
 end

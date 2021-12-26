@@ -6,11 +6,10 @@
           <span class="card-text story-preview"><%= story.first_paragraph %></span>
           <div class="story-stats">
             <div class="progress">
-              <div class="bar secondary w-<%= story.percent_done %>"></div>
+              <div class="bar success w-<%= story.progress %>"></div>
             </div>
-            <div class="score">
-              <span>👍</span>
-              <span><%= story.score %></span>
+            <div class="score <%= story.score_in_a_word %>">
+              <%= story.score_formatted %>
             </div>
           </div>
         </div>

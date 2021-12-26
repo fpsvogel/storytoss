@@ -60,20 +60,25 @@ input[type=submit] {
     padding: .7rem 1.25rem;
   }
   .story-stats {
-    width: 2.5rem;
+    width: 2rem;
     margin-left: .5rem;
   }
   .progress {
     height: .5rem;
-    width:unset;
+    width: unset;
     flex: 0.1;
     margin-bottom: .5rem;
   }
   .score {
     text-align: right;
-    & span:last-of-type {
-      position: relative;
-      top: 2px;
+    &.positive {
+      color: seagreen;
+    }
+    &.zero {
+      visibility: hidden;
+    }
+    &.negative {
+      color: crimson;
     }
   }
   .story-preview {
