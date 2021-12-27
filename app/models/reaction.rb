@@ -6,7 +6,8 @@ class Reaction < ApplicationRecord
   after_destroy :update_counter_cache
 
   validates_uniqueness_of :user_id,
-                          scope: :paragraph_id
+                          scope: :paragraph_id,
+                          message: "has already added a reaction to this paragraph"
 
   scope :like, -> { where(like: true) }
   scope :dislike, -> { where(like: false) }

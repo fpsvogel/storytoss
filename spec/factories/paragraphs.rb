@@ -6,7 +6,7 @@ FactoryBot.define do
     end
 
     story { Story.new }
-    author { User.first || FactoryBot.create(:user) }
+    author { FactoryBot.create(:user) }
     content { Faker::Lorem.paragraph_by_chars(number: 200) }
     likes do
       Array.new(auto_likes) do |i|

@@ -99,5 +99,21 @@ RSpec.describe Paragraph, type: :model do
         expect(paragraph.errors[:base]).to eq [message]
       end
     end
+
+    context "when the user has already added a paragraph to the story" do
+      let!(:paragraph) do
+        first = create(:paragraph)
+        first.add_next(content: "something", author: create(:user))
+      end
+
+      it "is invalid" do
+        message = "has already added a paragraph to this story"
+        previous_author = paragraph.previous.author
+        next_by_previous_author = paragraph.add_next(content: "something else",
+                                                     author: previous_author)
+        expect(next_by_previous_author).to_not be_valid
+        expect(next_by_previous_author.errors[:user_id]).to eq [message]
+      end
+    end
   end
 end

@@ -23,17 +23,20 @@ def branch(paragraph, current_level:)
   return false unless rand < ALTERNATIVE_PARAGRAPH_PROBABILITY
   branch_tip = paragraph
   (Paragraph::MAX_LEVEL - current_level).times do
-    branch_tip = branch_tip.add_next(content: random_paragraph_content,
-                                     author: random_user)
-                           .then { |par| with_likes_and_dislikes(par) }
+    branch_tip = add_next(branch_tip)
     break unless rand < ALTERNATIVE_ADD_PROBABILITY
   end
   true
 end
 
 def add_next(paragraph)
-  paragraph.add_next(content: random_paragraph_content, author: random_user)
-           .then { |par| with_likes_and_dislikes(par) }
+  added = nil
+  loop do
+    added = paragraph.add_next(content: random_paragraph_content,
+                               author: random_user)
+    break if added.valid? # invalid if random_user already added a paragraph.
+  end
+  with_likes_and_dislikes(added)
 end
 
 def with_likes_and_dislikes(paragraph)

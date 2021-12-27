@@ -29,6 +29,10 @@ class Paragraph < ApplicationRecord
 
   validate :validate_level_under_maximum
 
+  validates_uniqueness_of :user_id,
+                          scope: :story_id,
+                          message: "has already added a paragraph to this story"
+
   attribute :level, :integer, default: 1
   attribute :score, :integer, default: 0
 
