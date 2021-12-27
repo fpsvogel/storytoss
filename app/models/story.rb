@@ -42,6 +42,10 @@ class Story < ApplicationRecord
     (decimal * 100).round
   end
 
+  def last_updated_date
+    paragraphs.maximum("updated_at").strftime('%F')
+  end
+
   private
 
   def calculated_score

@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <div class="row margin-bottom-none">
-          <span class="card-text story-preview"><%= story.first_paragraph %></span>
+          <span class="card-text story-preview"><%= story.first_paragraph %> <span class="card-text story-date">–<%= story.last_updated_date %></span></span>
           <div class="story-stats">
             <div class="progress">
               <div class="bar success w-<%= story.progress %>"></div>

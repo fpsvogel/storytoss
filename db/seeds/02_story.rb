@@ -37,11 +37,11 @@ def add_next(paragraph)
 end
 
 def with_likes_and_dislikes(paragraph)
-  (rand * MAX_REACTIONS_PER_PARAGRAPH / 2).round.times do
-    paragraph.add_like(user: random_user)
-  end
-  (rand * MAX_REACTIONS_PER_PARAGRAPH / 2).round.times do
+  (rand * MAX_REACTIONS_PER_PARAGRAPH * 0.55).round.times do
     paragraph.add_dislike(user: random_user)
+  end
+  (rand * MAX_REACTIONS_PER_PARAGRAPH * 0.45).round.times do
+    paragraph.add_like(user: random_user)
   end
   paragraph
 end
