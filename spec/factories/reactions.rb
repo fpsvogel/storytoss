@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :like do
+  factory :reaction do
     user { create(:user) }
     paragraph { create(:paragraph, author: user) }
   end

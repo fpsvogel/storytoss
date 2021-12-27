@@ -1,5 +1,4 @@
 # TODO: prevent the same user from continuing a story twice
-# TODO: prevent the same user from liking and disliking a story
 
 USERS_TO_CREATE = 5
 STORIES_TO_CREATE = 3

@@ -10,32 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_24_191659) do
+ActiveRecord::Schema.define(version: 2021_12_23_185435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "dislikes", force: :cascade do |t|
-    t.bigint "paragraph_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["paragraph_id"], name: "index_dislikes_on_paragraph_id"
-    t.index ["user_id"], name: "index_dislikes_on_user_id"
-  end
-
-  create_table "likes", force: :cascade do |t|
-    t.bigint "paragraph_id", null: false
-    t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["paragraph_id"], name: "index_likes_on_paragraph_id"
-    t.index ["user_id"], name: "index_likes_on_user_id"
-  end
-
   create_table "paragraphs", force: :cascade do |t|
     t.text "content"
     t.integer "level", default: 1
+    t.integer "likes_count", default: 0
+    t.integer "dislikes_count", default: 0
     t.integer "score", default: 0
     t.bigint "user_id", null: false
     t.bigint "story_id", null: false
@@ -45,6 +29,17 @@ ActiveRecord::Schema.define(version: 2021_12_24_191659) do
     t.index ["previous_paragraph_id"], name: "index_paragraphs_on_previous_paragraph_id"
     t.index ["story_id"], name: "index_paragraphs_on_story_id"
     t.index ["user_id"], name: "index_paragraphs_on_user_id"
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.boolean "like"
+    t.bigint "paragraph_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["like"], name: "index_reactions_on_like"
+    t.index ["paragraph_id"], name: "index_reactions_on_paragraph_id"
+    t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
   create_table "stories", force: :cascade do |t|
@@ -66,11 +61,9 @@ ActiveRecord::Schema.define(version: 2021_12_24_191659) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "dislikes", "paragraphs"
-  add_foreign_key "dislikes", "users"
-  add_foreign_key "likes", "paragraphs"
-  add_foreign_key "likes", "users"
   add_foreign_key "paragraphs", "paragraphs", column: "previous_paragraph_id"
   add_foreign_key "paragraphs", "stories"
   add_foreign_key "paragraphs", "users"
+  add_foreign_key "reactions", "paragraphs"
+  add_foreign_key "reactions", "users"
 end

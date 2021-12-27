@@ -11,8 +11,9 @@ class Paragraph < ApplicationRecord
             class_name: "Paragraph",
             foreign_key: "previous_paragraph_id"
   alias_attribute :nexts, :next_paragraphs
-  has_many :likes
-  has_many :dislikes
+  has_many :reactions
+  has_many :likes, -> { like }, class_name: "Reaction"
+  has_many :dislikes, -> { dislike }, class_name: "Reaction"
 
   MAX_LENGTH = 280
   MAX_LEVEL = 10
@@ -53,6 +54,16 @@ class Paragraph < ApplicationRecord
   end
 
   alias_method :add_next, :add_next_paragraph
+
+  def add_like(user:)
+    reaction = reactions.find_or_initialize_by(user: user, paragraph: self)
+    reaction.update(like: true)
+  end
+
+  def add_dislike(user:)
+    reaction = reactions.find_or_initialize_by(user: user, paragraph: self)
+    reaction.update(like: false)
+  end
 
   def to_s
     content

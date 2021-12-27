@@ -46,14 +46,14 @@ RSpec.describe Story, type: :model do
     let!(:story) do
       the_story = create(:story)
       the_story.first_paragraph
-               .add_next(create(:paragraph, likes_count: 12, dislikes_count: 1))
+               .add_next(create(:paragraph, auto_likes: 3, auto_dislikes: 2))
       the_story.first_paragraph
-               .add_next(create(:paragraph, likes_count: 25, dislikes_count: 5))
+               .add_next(create(:paragraph, auto_likes: 1))
       the_story
     end
 
     it "returns the sum of all paragraph scores" do
-      expect(story.score).to eq 31
+      expect(story.score).to eq 2
     end
   end
 

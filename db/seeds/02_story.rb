@@ -23,25 +23,25 @@ def branch(paragraph, current_level:)
   return false unless rand < ALTERNATIVE_PARAGRAPH_PROBABILITY
   branch_tip = paragraph
   (Paragraph::MAX_LEVEL - current_level).times do
-    branch_tip = with_likes_and_dislikes(
-                  branch_tip.add_next(content: random_paragraph_content,
-                                      author: random_user))
+    branch_tip = branch_tip.add_next(content: random_paragraph_content,
+                                     author: random_user)
+                           .then { |par| with_likes_and_dislikes(par) }
     break unless rand < ALTERNATIVE_ADD_PROBABILITY
   end
   true
 end
 
 def add_next(paragraph)
-  with_likes_and_dislikes(
-    paragraph.add_next(content: random_paragraph_content, author: random_user))
+  paragraph.add_next(content: random_paragraph_content, author: random_user)
+           .then { |par| with_likes_and_dislikes(par) }
 end
 
 def with_likes_and_dislikes(paragraph)
   (rand * 10).round.times do
-    paragraph.likes.create(user: random_user)
+    paragraph.add_like(user: random_user)
   end
   (rand * 10).round.times do
-    paragraph.dislikes.create(user: random_user)
+    paragraph.add_dislike(user: random_user)
   end
   paragraph
 end

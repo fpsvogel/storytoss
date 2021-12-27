@@ -2,10 +2,9 @@ class User < ApplicationRecord
   authenticates_with_sorcery!
 
   has_many :paragraphs
-  has_many :liked,
-            through: :likes
-  has_many :disliked,
-            through: :dislikes
+  has_many :reactions
+  has_many :liked, -> { like }, class_name: "Reaction"
+  has_many :disliked, -> { dislike }, class_name: "Reaction"
 
   validates :password,
             presence: true,

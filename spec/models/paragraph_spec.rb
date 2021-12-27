@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Paragraph, type: :model do
   describe "#score" do
     let!(:paragraph) do
-      create(:paragraph, likes_count: 1, dislikes_count: 2)
+      create(:paragraph, auto_likes: 1, auto_dislikes: 2)
     end
 
     it "correctly sums up likes and dislikes" do
@@ -15,8 +15,8 @@ RSpec.describe Paragraph, type: :model do
     let!(:higher_score) { 10 }
     let!(:paragraph) do
       par = create(:paragraph)
-      par.nexts << create(:paragraph, likes_count: higher_score - 1)
-      par.nexts << create(:paragraph, likes_count: higher_score)
+      par.nexts << create(:paragraph, auto_likes: higher_score - 1)
+      par.nexts << create(:paragraph, auto_likes: higher_score)
       par
     end
 
@@ -48,6 +48,17 @@ RSpec.describe Paragraph, type: :model do
 
     it "returns the next paragraph" do
       expect(create(:paragraph).add_next(next_paragraph)).to eq next_paragraph
+    end
+  end
+
+  describe "adding a like when a dislike exists from the same user" do
+    let!(:paragraph) { create(:paragraph) }
+
+    it "removes the dislike automatically" do
+      paragraph.add_like(user: paragraph.author)
+      expect(paragraph.likes.count).to eq 1
+      paragraph.add_dislike(user: paragraph.author)
+      expect(paragraph.likes.count).to eq 0
     end
   end
 
