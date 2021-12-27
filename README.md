@@ -17,10 +17,10 @@ In building this app, I followed a more test-centric development process than I 
 Here are the testing rules of thumb that I set for myself at the beginning of this project:
 
 1. When I add a feature, write tests for it before working on anything else.
-2. Don't commit before writing tests for the new/modified code.
+2. Don't commit before writing tests for the new/modified code, unless it's a change purely in the views.
 3. When I'm building a model, use TDD as much as possible.
 
-By the end of the project, these rules felt less like rules and more like just plain writing code. I didn't have to remind myself as often to write tests before committing, because the habit of testing had become a more seamless part my development process. And the more I did it, the more grateful I was that I did: more than once an obscure bug came up that I found within a few minutes thanks to my tests. I shudder to think of the hours it might have otherwise taken me to track down those bugs.
+By the end of the project, these rules felt less like rules and more like just plain writing code. I didn't have to remind myself as often to write tests before committing, because the habit of testing had become a more seamless part my development process. And the more I did it, the more grateful I was that I'd done so: more than once an obscure bug came up that I found within just a few minutes, thanks to my tests. I shudder to think of the hours it might otherwise have taken me to track down those bugs.
 
 ## Contributing
 
