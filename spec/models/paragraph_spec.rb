@@ -51,14 +51,25 @@ RSpec.describe Paragraph, type: :model do
     end
   end
 
-  describe "adding a like when a dislike exists from the same user" do
+  describe "#toggle_like" do
     let!(:paragraph) { create(:paragraph) }
 
-    it "removes the dislike automatically" do
-      paragraph.add_like(user: paragraph.author)
-      expect(paragraph.likes.count).to eq 1
-      paragraph.add_dislike(user: paragraph.author)
-      expect(paragraph.likes.count).to eq 0
+    context "when a dislike exists from the same user" do
+      it "changes the dislike into a like" do
+        paragraph.toggle_like(user: paragraph.author)
+        expect(paragraph.likes.count).to eq 1
+        paragraph.toggle_dislike(user: paragraph.author)
+        expect(paragraph.likes.count).to eq 0
+      end
+    end
+
+    context "when a like exists from the same user" do
+      it "removes the like" do
+        paragraph.toggle_like(user: paragraph.author)
+        expect(paragraph.likes.count).to eq 1
+        paragraph.toggle_like(user: paragraph.author)
+        expect(paragraph.likes.count).to eq 0
+      end
     end
   end
 

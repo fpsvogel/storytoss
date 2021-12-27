@@ -12,6 +12,14 @@ class Reaction < ApplicationRecord
   scope :like, -> { where(like: true) }
   scope :dislike, -> { where(like: false) }
 
+  def toggle_like
+    toggle_to(true)
+  end
+
+  def toggle_dislike
+    toggle_to(false)
+  end
+
   private
 
   def update_counter_cache
@@ -20,5 +28,13 @@ class Reaction < ApplicationRecord
     paragraph.update(likes_count: likes_count,
                      dislikes_count: dislikes_count,
                      score: likes_count - dislikes_count)
+  end
+
+  def toggle_to(like_boolean)
+    if new_record? || like != like_boolean
+      update(like: like_boolean)
+    else # if like is already set to like_boolean, remove the reaction.
+      destroy
+    end
   end
 end

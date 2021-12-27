@@ -59,14 +59,12 @@ class Paragraph < ApplicationRecord
 
   alias_method :add_next, :add_next_paragraph
 
-  def add_like(user:)
-    reaction = reactions.find_or_initialize_by(user: user, paragraph: self)
-    reaction.update(like: true)
+  def toggle_like(user:)
+    toggle_reaction(:like, user)
   end
 
-  def add_dislike(user:)
-    reaction = reactions.find_or_initialize_by(user: user, paragraph: self)
-    reaction.update(like: false)
+  def toggle_dislike(user:)
+    toggle_reaction(:dislike, user)
   end
 
   def to_s
@@ -86,5 +84,10 @@ class Paragraph < ApplicationRecord
     if levels > MAX_LEVEL
       errors.add(:base, "exceeded the story length")
     end
+  end
+
+  def toggle_reaction(type, user)
+    reactions.find_or_initialize_by(user: user, paragraph: self)
+             .send("toggle_#{type}")
   end
 end
