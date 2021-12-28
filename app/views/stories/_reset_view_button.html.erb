@@ -1,0 +1,3 @@
+<% if @branch.paragraph_selected? %>
+  <%= link_to "Reset view", "/stories/#{@story_id}", class: "paper-btn #{"margin-top-large" if margin_top}" %>
+<% end %>

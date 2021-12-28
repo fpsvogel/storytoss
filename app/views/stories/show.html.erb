@@ -1,5 +1,7 @@
 <h3><%= @title %></h3>
 
+<%= render 'stories/reset_view_button', margin_top: false %>
+
 <div data-controller="story">
   <% @branch.levels.each_with_index do |paragraphs, level_index| %>
     <%= render 'paragraph', paragraph: paragraphs.first, selected_id: @branch.selected_id %>
@@ -10,3 +12,5 @@
     <% end %>
   <% end %>
 </div>
+
+<%= render 'stories/reset_view_button', margin_top: true %>

@@ -6,6 +6,10 @@ class StoryBranch
     set_subsequent_levels(address || "")
   end
 
+  def paragraph_selected?
+    !selected_id.nil?
+  end
+
   private
 
   def set_subsequent_levels(address)
