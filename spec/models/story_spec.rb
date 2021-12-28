@@ -12,33 +12,39 @@ RSpec.describe Story, type: :model do
     end
   end
 
-  describe "#paragraph_at" do
+  describe "paragraph address" do
     let!(:last_level) { 6 }
-    let!(:last_contents) { ["And then there were none.", "And then there were still a few."] }
-    let!(:story) do
-      the_story = create(:story, random_paragraphs_count: last_level - 1)
-      paragraph = the_story.first_paragraph
+    let!(:story) { create(:story, random_paragraphs_count: last_level - 1) }
+    let!(:last_paragraph) do
+      current_paragraph = story.first_paragraph
       (last_level - 2).times do
-        paragraph = paragraph.next_paragraphs.first
+        current_paragraph = current_paragraph.next_paragraphs.first
       end
-      paragraph.next_paragraphs << create(:paragraph, content: last_contents.first)
-      last_paragraph = create(:paragraph, content: last_contents.second)
-      paragraph.next_paragraphs << last_paragraph
-      @last_id = last_paragraph.id
-      the_story
+      current_paragraph.add_next(create(:paragraph, content: "Alternative to the last paragraph"))
+      last_paragraph = create(:paragraph, content: "Last paragraph; the end.")
+      current_paragraph.add_next(last_paragraph)
+      last_paragraph
     end
-    let!(:first_paragraph_id) { story.first_paragraph.id }
-    let!(:last_paragraph_id) { @last_id }
+    let!(:first_id) { story.first_paragraph.id }
+    let!(:last_id) { last_paragraph.id }
     let!(:last_address) do
-      random_address = ((first_paragraph_id + 1)..(first_paragraph_id + last_level - 2))
+      address_from_random = ((first_id + 1)..(first_id + last_level - 2))
                             .map(&:to_s)
                             .join(Story::ADDRESS_SEPARATOR)
-      random_address + "#{Story::ADDRESS_SEPARATOR}#{last_paragraph_id}"
+      address_from_random + "#{Story::ADDRESS_SEPARATOR}#{last_id}"
     end
 
-    it "returns the correct paragraph" do
-      last_paragraph = story.paragraph_at(last_address)
-      expect(last_paragraph.content).to eq last_contents.second
+    describe "#paragraph_at" do
+      it "returns the correct paragraph" do
+        found_last_paragraph = story.paragraph_at(last_address)
+        expect(found_last_paragraph).to eq last_paragraph
+      end
+    end
+
+    describe "Paragraph#address" do
+      it "returns the correct address" do
+        expect(last_paragraph.address).to eq last_address
+      end
     end
   end
 

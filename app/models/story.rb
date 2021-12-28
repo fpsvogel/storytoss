@@ -6,11 +6,12 @@ class Story < ApplicationRecord
 
   def self.start(content:, author:)
     story = create
-    story.create_first_paragraph(content: content, author: author)
+    story.create_first_paragraph(content: content, author: author, address: "0")
     story
   end
 
   def paragraph_at(address)
+    return first_paragraph if address == "0"
     paragraph_ids = address.split(ADDRESS_SEPARATOR)
     current_paragraph = first_paragraph
     paragraph_ids.each do |paragraph_id|

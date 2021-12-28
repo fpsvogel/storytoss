@@ -123,7 +123,7 @@ class Paragraph < ApplicationRecord
   end
 
   def address_with(next_id)
-    if address
+    if address && address != "0"
       "#{address}#{Story::ADDRESS_SEPARATOR}#{next_id}"
     else
       next_id.to_s
