@@ -1,0 +1,18 @@
+<div class="paper container margin-top story-card">
+  <div class="card-body">
+    <div class="row margin-bottom-none">
+      <span class="card-text story-content">
+        <span class="story-level"><%= level %>.</span><%= paragraph %><span class="card-text story-date">–<%= paragraph.last_updated_date %></span>
+        <a class="story-continue" href="/paragraphs/<%= id %>/next">Continue from here…</a>
+      </span>
+      <span class="story-stats">
+        <div class="score <%= paragraph.score_in_a_word %>">
+          <%= paragraph.score_formatted %>
+        </div>
+        <div class="like-dislike">
+          <%= link_to "👍", "/paragraphs/#{id}/like" %><%= link_to "👎", "/paragraphs/#{id}/dislike" %>
+        </div>
+      </span>
+    </div>
+  </div>
+</div>

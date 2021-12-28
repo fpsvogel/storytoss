@@ -46,6 +46,10 @@ class Story < ApplicationRecord
     paragraphs.maximum("updated_at").strftime('%F')
   end
 
+  def title
+    first_paragraph.to_s.split(" ").slice(0..4).join(" ") + " …"
+  end
+
   private
 
   def calculated_score

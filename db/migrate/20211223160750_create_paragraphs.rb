@@ -3,6 +3,7 @@ class CreateParagraphs < ActiveRecord::Migration[7.0]
     create_table :paragraphs do |t|
       t.text :content
       t.integer :level, default: 1
+      t.text :branch_id
       t.integer :likes_count, default: 0
       t.integer :dislikes_count, default: 0
       t.integer :score, default: 0

@@ -1,17 +1,17 @@
-<div class="row margin-top">
-  <a class="story-card-link" href="#">
+<div class="row margin-top story-card">
+  <a class="link-wrapper" href="/stories/<%= story.id %>">
     <div class="card">
       <div class="card-body">
         <div class="row margin-bottom-none">
-          <span class="card-text story-preview"><%= story.first_paragraph %> <span class="card-text story-date">–<%= story.last_updated_date %></span></span>
-          <div class="story-stats">
+          <span class="card-text story-content"><%= story.first_paragraph %> <span class="card-text story-date">–<%= story.last_updated_date %></span></span>
+          <span class="story-stats">
             <div class="progress">
               <div class="bar success w-<%= story.progress %>"></div>
             </div>
             <div class="score <%= story.score_in_a_word %>">
               <%= story.score_formatted %>
             </div>
-          </div>
+          </span>
         </div>
       </div>
     </div>

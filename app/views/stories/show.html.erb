@@ -1,0 +1,12 @@
+<h3><%= @title %></h3>
+
+<% @branch.levels.each_with_index do |paragraphs, level_index| %>
+  <%= render 'paragraph', paragraph: paragraphs.first,
+                          id: @branch.ids[level_index],
+                          level: level_index + 1 %>
+  <% paragraphs[1..-1].each_with_index do |alternative, par_index| %>
+    <%= render 'alternative_preview', paragraph: alternative,
+                                      branch_id: @branch.branch_ids[level_index][par_index] %>
+
+  <% end %>
+<% end %>

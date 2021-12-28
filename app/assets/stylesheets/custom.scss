@@ -49,23 +49,47 @@ input[type=submit] {
   margin-top: 1.2rem;
 }
 
-// STORY INDEX
+// STORY INDEX AND SHOW
 
-.story-card-link {
-  all: unset;
-  &:hover {
-    cursor: pointer;
+.story-card {
+  padding: 0;
+  .link-wrapper {
+    all: unset;
+    &:hover {
+      cursor: pointer;
+    }
   }
   .card-body {
-    padding: .7rem 1.25rem;
+    padding: 0;
+  }
+  .story-content {
+    padding: .7rem 0 .7rem 1.25rem;
+    margin-bottom: 0 !important;
+    flex: 1;
+  }
+  .story-level, .story-date, .story-continue, .story-stats {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */
+  }
+  .story-level {
+    color: #bbb;
+    margin-right: .3rem;
   }
   .story-date {
+    display: inline-block;
     color: grey;
     font-size: smaller;
+    margin-left: .3rem;
+  }
+  .story-continue {
+    display: inline-block;
+    font-size: 85%;
   }
   .story-stats {
-    width: 2rem;
-    margin-left: .5rem;
+    margin: .7rem 1.25rem .7rem .5rem;
+    width: 2.7rem;
   }
   .progress {
     height: .5rem;
@@ -74,7 +98,7 @@ input[type=submit] {
     margin-bottom: .5rem;
   }
   .score {
-    text-align: right;
+    text-align: center;
     &.positive {
       color: seagreen;
     }
@@ -85,8 +109,37 @@ input[type=submit] {
       color: crimson;
     }
   }
-  .story-preview {
-    margin-bottom: 0 !important;
+  .like-dislike a {
+    all: unset;
+    margin-left: 0 !important;
+    padding: .1rem .1rem;
+    font-size: .9rem;
+    color: transparent;
+    text-shadow: 0 0 0 lightgray;
+    &:hover {
+      cursor: pointer;
+      text-shadow: 0 0 0 #bbb;
+    }
+    .selected {
+      text-shadow: 0 0 0 var(--primary);
+    }
+  }
+}
+
+.alternative {
+  font-size: 90%;
+  color: grey;
+  padding: .4rem 1.25rem .4rem 1.25rem;
+  .alternative-content {
     flex: 1;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .alternative-score {
+    margin-left: 1rem;
+    &.zero {
+      visibility: hidden;
+    }
   }
 }

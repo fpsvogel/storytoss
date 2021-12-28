@@ -45,7 +45,9 @@ class Paragraph < ApplicationRecord
   def add_next_paragraph(paragraph = nil, content: nil, author: nil)
     if paragraph
       next_paragraphs << paragraph
-      paragraph.update(story: story, level: level + 1)
+      paragraph.update(story: story,
+                       level: level + 1,
+                       branch_id: branch_id_with(paragraph.id))
       added_paragraph = paragraph
     else
       raise ArgumentError if content.nil? || author.nil?
@@ -53,6 +55,7 @@ class Paragraph < ApplicationRecord
                                                author: author,
                                                story: story,
                                                level: level + 1)
+      added_paragraph.update(branch_id: branch_id_with(added_paragraph.id))
     end
     added_paragraph
   end
@@ -69,6 +72,30 @@ class Paragraph < ApplicationRecord
 
   def to_s
     content
+  end
+
+  def last_updated_date
+    updated_at.strftime('%F')
+  end
+
+  # TODO: remove duplication here and in story.rb by moving the score methods into a mixin.
+
+  def score
+    calculated_score
+  end
+
+  def score_formatted
+    sprintf("%+d", score)
+  end
+
+  def score_in_a_word
+    if calculated_score > 0
+      "positive"
+    elsif calculated_score == 0
+      "zero"
+    else
+      "negative"
+    end
   end
 
   private
@@ -89,5 +116,17 @@ class Paragraph < ApplicationRecord
   def toggle_reaction(type, user)
     reactions.find_or_initialize_by(user: user, paragraph: self)
              .send("toggle_#{type}")
+  end
+
+  def calculated_score
+    @score ||= read_attribute(:score)
+  end
+
+  def branch_id_with(next_id)
+    if branch_id
+      "#{branch_id}#{Story::BRANCH_ID_SEPARATOR}#{next_id}"
+    else
+      next_id.to_s
+    end
   end
 end
