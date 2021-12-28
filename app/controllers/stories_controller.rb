@@ -8,6 +8,7 @@ class StoriesController < ApplicationController
   def show
     story = Story.find(params[:id])
     @title = story.title
-    @branch = StoryBranch.new(story: story, address: nil)
+    @story_id = story.id
+    @branch = StoryBranch.new(story: story, address: params[:branch])
   end
 end

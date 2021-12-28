@@ -1,26 +1,38 @@
 class StoryBranch
-  attr_reader :levels, :shown_ids, :addresses
+  attr_reader :levels
 
   def initialize(story:, address:)
-    set_levels_and_ids(story, address || "")
+    @levels = [[story.first_paragraph]]
+    set_subsequent_levels(address || "")
   end
 
   private
 
-  def set_levels_and_ids(story, address)
-    address_ids = [nil] + address.split(Story::ADDRESS_SEPARATOR)
-    first_paragraph = story.first_paragraph
-    current_level = [first_paragraph]
-    @levels, @shown_ids, @addresses = [], [], []
+  def set_subsequent_levels(address)
+    address_ids = address.split(Story::ADDRESS_SEPARATOR)
+    shown_paragraph = @levels.first.first
     loop do
-      next_id = address_ids.pop
-      shown_paragraph = current_level.find { |par| par.id == next_id } ||
-                         current_level.first
-      @shown_ids << shown_paragraph.id
-      @addresses << current_level.map(&:address)
-      @levels << current_level
       current_level = shown_paragraph.next_paragraphs_sorted.to_a
       break if current_level.empty?
+      shown_id = address_ids.shift
+      shown_paragraph = find_shown_paragraph(current_level, shown_id)
+      shift_shown_paragraph_first(current_level, shown_paragraph)
+      @levels << current_level
     end
+  end
+
+  def find_shown_paragraph(current_level, shown_id)
+    shown_paragraph = if shown_id.nil?
+                        current_level.first
+                      else
+                        current_level.find { |par| par.id == Integer(shown_id) }
+                      end
+    raise ArgumentError if shown_paragraph.nil?
+    shown_paragraph
+  end
+
+  def shift_shown_paragraph_first(current_level, shown_paragraph)
+    current_level.delete(shown_paragraph)
+    current_level.unshift(shown_paragraph)
   end
 end
