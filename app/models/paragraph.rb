@@ -65,11 +65,17 @@ class Paragraph < ApplicationRecord
   alias_method :add_next, :add_next_paragraph
 
   def toggle_like(user:)
-    toggle_reaction(:like, user)
+    selected = toggle_reaction(:like, user)
+    return Reaction::LIKE if selected
   end
 
   def toggle_dislike(user:)
-    toggle_reaction(:dislike, user)
+    selected = toggle_reaction(:dislike, user)
+    return Reaction::DISLIKE if selected
+  end
+
+  def reaction_symbol(user:)
+    reactions.find_by(user: user)&.to_sym
   end
 
   def to_s

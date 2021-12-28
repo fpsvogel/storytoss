@@ -6,10 +6,11 @@ FactoryBot.define do
 
     after(:create) do |story, evaluator|
       break unless evaluator.random_paragraphs_count > 0
-      first = create(:paragraph)
-      story.update(first_paragraph: first)
+      story.paragraphs.create(content: Faker::Lorem.paragraph_by_chars(number: 200),
+                              author: FactoryBot.create(:user),
+                              address: "0")
       remaining_random = evaluator.random_paragraphs_count - 1
-      current = first
+      current = story.first_paragraph
       remaining_random.times do
         current = current.add_next(create(:paragraph))
       end

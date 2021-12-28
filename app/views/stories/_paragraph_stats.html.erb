@@ -1,0 +1,8 @@
+<%= turbo_frame_tag "stats-#{paragraph.id}", class: "story-stats" do %>
+  <div class="score <%= paragraph.score_in_a_word %>">
+    <%= paragraph.score_formatted %>
+  </div>
+  <div class="like-dislike">
+    <%= link_to "👍", like_paragraph_path(paragraph), "data-turbo-method": :post, class: ("selected" if reaction == Reaction::LIKE) %><%= link_to "👎", dislike_paragraph_path(paragraph), "data-turbo-method": :post, class: ("selected" if reaction == Reaction::DISLIKE) %>
+  </div>
+<% end %>

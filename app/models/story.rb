@@ -1,15 +1,18 @@
 class Story < ApplicationRecord
   include Scorable
 
-  has_one :first_paragraph, class_name: "Paragraph"
   has_many :paragraphs
 
   ADDRESS_SEPARATOR = "."
 
   def self.start(content:, author:)
     story = create
-    story.create_first_paragraph(content: content, author: author, address: "0")
+    story.paragraphs.create(content: content, author: author, address: "0")
     story
+  end
+
+  def first_paragraph
+    paragraphs.first
   end
 
   def paragraph_at(address)

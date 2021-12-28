@@ -4,21 +4,18 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = [ "card" ]
 
-  connect() {
-    this.focusSelectedParagraph()
-  }
-
-  focusSelectedParagraph() {
-    let focused_id = window.location.hash.substring(1)
-    let focused_paragraph = document.getElementById(`p${focused_id}`)
-    if (!focused_paragraph == null) {
-      // focused_paragraph.scrollIntoView({ behavior: 'instant', block: 'center' }) // doesn't work
-      focused_paragraph.focus()
+  unhighlightSelectedParagraph(event) {
+    let selected = this.getSelectedParagraph()
+    if (selected != null) {
+      console.log("removing " + selected.id)
+      selected.classList.remove("selected")
     }
   }
 
-  unfocusSelectedParagraph(event) {
-    let paragraph = event.currentTarget
-    paragraph.classList.remove("selected")
+  getSelectedParagraph() {
+    let selected_id = window.location.hash.substring(2)
+    // alternative method, without anchor
+    // let selected_id = window.location.search.match(/branch=.+?(\d+)$/).slice(-1)[0]
+    return document.getElementById(`p${selected_id}`)
   }
 }

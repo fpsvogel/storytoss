@@ -124,7 +124,7 @@ input[type=submit] {
       cursor: pointer;
       text-shadow: 0 0 0 #bbb;
     }
-    .selected {
+    &.selected {
       text-shadow: 0 0 0 var(--primary);
     }
   }

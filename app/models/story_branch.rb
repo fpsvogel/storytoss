@@ -1,20 +1,21 @@
 class StoryBranch
-  attr_reader :levels, :selected_id
+  attr_reader :levels, :selected_paragraph_id, :reactions
 
-  def initialize(story:, address:)
+  def initialize(story:, address:, user:)
     @levels = [[story.first_paragraph]]
-    set_subsequent_levels(address || "")
+    address_ids = (address || "").split(Story::ADDRESS_SEPARATOR)
+    @selected_paragraph_id = Integer(address_ids.last) unless address_ids.empty?
+    set_subsequent_levels(address_ids)
+    set_reactions(user)
   end
 
   def paragraph_selected?
-    !selected_id.nil?
+    !selected_paragraph_id.nil?
   end
 
   private
 
-  def set_subsequent_levels(address)
-    address_ids = address.split(Story::ADDRESS_SEPARATOR)
-    @selected_id = Integer(address_ids.last) unless address_ids.empty?
+  def set_subsequent_levels(address_ids)
     shown_paragraph = @levels.first.first
     loop do
       current_level = shown_paragraph.next_paragraphs_sorted.to_a
@@ -39,5 +40,11 @@ class StoryBranch
   def shift_shown_paragraph_first(current_level, shown_paragraph)
     current_level.delete(shown_paragraph)
     current_level.unshift(shown_paragraph)
+  end
+
+  def set_reactions(user)
+    @reactions = @levels.map do |paragraphs|
+      paragraphs.first.reaction_symbol(user: user)
+    end
   end
 end

@@ -12,12 +12,19 @@ class Reaction < ApplicationRecord
   scope :like, -> { where(like: true) }
   scope :dislike, -> { where(like: false) }
 
+  LIKE = :like
+  DISLIKE = :dislike
+
   def toggle_like
     toggle_to(true)
   end
 
   def toggle_dislike
     toggle_to(false)
+  end
+
+  def to_sym
+    like? ? LIKE : DISLIKE
   end
 
   private
@@ -33,8 +40,10 @@ class Reaction < ApplicationRecord
   def toggle_to(like_boolean)
     if new_record? || like != like_boolean
       update(like: like_boolean)
+      true
     else # if like is already set to like_boolean, remove the reaction.
       destroy
+      nil
     end
   end
 end

@@ -9,4 +9,7 @@ Rails.application.routes.draw do
   delete 'logout', to: 'sessions#destroy'
 
   get 'stories/:id', to: 'stories#show'
+
+  post 'paragraphs/:id/like'   , to: 'paragraphs#like'   , as: :like_paragraph
+  post 'paragraphs/:id/dislike', to: 'paragraphs#dislike', as: :dislike_paragraph
 end
