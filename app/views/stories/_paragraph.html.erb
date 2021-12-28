@@ -3,7 +3,7 @@
     <div class="row margin-bottom-none">
       <span class="card-text story-content">
         <span class="story-level"><%= paragraph.level %>.</span><%= paragraph %><span class="card-text story-date">–<%= paragraph.last_updated_date %></span>
-        <a class="story-continue" href="/paragraphs/<%= paragraph.id %>/next">Continue from here…</a>
+        <%= link_to "Continue from here…", create_paragraph_path(paragraph), class: "story-continue" %>
       </span>
         <%= render 'stories/paragraph_stats', paragraph: paragraph, reaction: reaction %>
     </div>
