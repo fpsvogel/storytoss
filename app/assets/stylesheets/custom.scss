@@ -53,6 +53,10 @@ input[type=submit] {
 
 .story-card {
   padding: 0;
+  z-index: 99;
+  &.selected {
+    outline: 5px solid crimson;
+  }
   .link-wrapper {
     all: unset;
     &:hover {

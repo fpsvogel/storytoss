@@ -1,4 +1,4 @@
-<div class="paper container margin-top story-card">
+<div class="paper container margin-top story-card <%= "selected" if paragraph.id ==selected_id %>" id="p<%= paragraph.id %>" tabindex="-1" data-story-target="card" data-action="blur->story#unfocusSelectedParagraph">
   <div class="card-body">
     <div class="row margin-bottom-none">
       <span class="card-text story-content">

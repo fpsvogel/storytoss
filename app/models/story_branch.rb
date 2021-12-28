@@ -1,5 +1,5 @@
 class StoryBranch
-  attr_reader :levels
+  attr_reader :levels, :selected_id
 
   def initialize(story:, address:)
     @levels = [[story.first_paragraph]]
@@ -10,6 +10,7 @@ class StoryBranch
 
   def set_subsequent_levels(address)
     address_ids = address.split(Story::ADDRESS_SEPARATOR)
+    @selected_id = Integer(address_ids.last) unless address_ids.empty?
     shown_paragraph = @levels.first.first
     loop do
       current_level = shown_paragraph.next_paragraphs_sorted.to_a

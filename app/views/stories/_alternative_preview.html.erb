@@ -1,5 +1,5 @@
-<a class="link-wrapper" href="/stories/<%= story_id %>?branch=<%= paragraph.address %>">
-  <div class="paper container alternative">
+<a class="link-wrapper" href="/stories/<%= story_id %>?branch=<%= paragraph.address %>#p<%= paragraph.id %>">
+  <div class="paper container alternative" style="z-index:<%= 90 - index %>">
     <div class="row margin-bottom-none">
       <span class="alternative-content">
         <%= paragraph %>
