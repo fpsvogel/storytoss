@@ -1,5 +1,5 @@
 class StoryBranch
-  attr_reader :levels, :ids, :addresses
+  attr_reader :levels, :shown_ids, :addresses
 
   def initialize(story:, address:)
     set_levels_and_ids(story, address || "")
@@ -11,16 +11,15 @@ class StoryBranch
     address_ids = [nil] + address.split(Story::ADDRESS_SEPARATOR)
     first_paragraph = story.first_paragraph
     current_level = [first_paragraph]
-    @levels, @ids, @addresses = [], [], []
+    @levels, @shown_ids, @addresses = [], [], []
     loop do
       next_id = address_ids.pop
-      chosen_paragraph = current_level.find { |par| par.id == next_id } ||
+      shown_paragraph = current_level.find { |par| par.id == next_id } ||
                          current_level.first
-      chosen_id = chosen_paragraph.id
-      @ids << chosen_id
+      @shown_ids << shown_paragraph.id
       @addresses << current_level.map(&:address)
       @levels << current_level
-      current_level = chosen_paragraph.next_paragraphs_sorted.to_a
+      current_level = shown_paragraph.next_paragraphs_sorted.to_a
       break if current_level.empty?
     end
   end
