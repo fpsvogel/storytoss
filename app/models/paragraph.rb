@@ -1,4 +1,6 @@
 class Paragraph < ApplicationRecord
+  include Scorable
+
   belongs_to :story
   belongs_to :author,
               class_name: "User",
@@ -76,26 +78,6 @@ class Paragraph < ApplicationRecord
 
   def last_updated_date
     updated_at.strftime('%F')
-  end
-
-  # TODO: remove duplication here and in story.rb by moving the score methods into a mixin.
-
-  def score
-    calculated_score
-  end
-
-  def score_formatted
-    sprintf("%+d", score)
-  end
-
-  def score_in_a_word
-    if calculated_score > 0
-      "positive"
-    elsif calculated_score == 0
-      "zero"
-    else
-      "negative"
-    end
   end
 
   private

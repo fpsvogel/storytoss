@@ -1,4 +1,6 @@
 class Story < ApplicationRecord
+  include Scorable
+
   has_one :first_paragraph, class_name: "Paragraph"
   has_many :paragraphs
 
@@ -18,24 +20,6 @@ class Story < ApplicationRecord
       current_paragraph = current_paragraph.next_paragraphs.find(paragraph_id)
     end
     current_paragraph
-  end
-
-  def score
-    calculated_score
-  end
-
-  def score_formatted
-    sprintf("%+d", score)
-  end
-
-  def score_in_a_word
-    if calculated_score > 0
-      "positive"
-    elsif calculated_score == 0
-      "zero"
-    else
-      "negative"
-    end
   end
 
   def progress
