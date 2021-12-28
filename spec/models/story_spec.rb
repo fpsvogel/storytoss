@@ -29,15 +29,15 @@ RSpec.describe Story, type: :model do
     end
     let!(:first_paragraph_id) { story.first_paragraph.id }
     let!(:last_paragraph_id) { @last_id }
-    let!(:last_branch_id) do
-      random_branch_id = ((first_paragraph_id + 1)..(first_paragraph_id + last_level - 2))
+    let!(:last_address) do
+      random_address = ((first_paragraph_id + 1)..(first_paragraph_id + last_level - 2))
                             .map(&:to_s)
-                            .join(Story::BRANCH_ID_SEPARATOR)
-      random_branch_id + "#{Story::BRANCH_ID_SEPARATOR}#{last_paragraph_id}"
+                            .join(Story::ADDRESS_SEPARATOR)
+      random_address + "#{Story::ADDRESS_SEPARATOR}#{last_paragraph_id}"
     end
 
     it "returns the correct paragraph" do
-      last_paragraph = story.paragraph_at(last_branch_id)
+      last_paragraph = story.paragraph_at(last_address)
       expect(last_paragraph.content).to eq last_contents.second
     end
   end

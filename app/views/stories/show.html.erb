@@ -6,7 +6,7 @@
                           level: level_index + 1 %>
   <% paragraphs[1..-1].each_with_index do |alternative, par_index| %>
     <%= render 'alternative_preview', paragraph: alternative,
-                                      branch_id: @branch.branch_ids[level_index][par_index] %>
+                                      address: @branch.addresses[level_index][par_index] %>
 
   <% end %>
 <% end %>

@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2021_12_23_185435) do
   create_table "paragraphs", force: :cascade do |t|
     t.text "content"
     t.integer "level", default: 1
-    t.text "branch_id"
+    t.text "address"
     t.integer "likes_count", default: 0
     t.integer "dislikes_count", default: 0
     t.integer "score", default: 0

@@ -47,7 +47,7 @@ class Paragraph < ApplicationRecord
       next_paragraphs << paragraph
       paragraph.update(story: story,
                        level: level + 1,
-                       branch_id: branch_id_with(paragraph.id))
+                       address: address_with(paragraph.id))
       added_paragraph = paragraph
     else
       raise ArgumentError if content.nil? || author.nil?
@@ -55,7 +55,7 @@ class Paragraph < ApplicationRecord
                                                author: author,
                                                story: story,
                                                level: level + 1)
-      added_paragraph.update(branch_id: branch_id_with(added_paragraph.id))
+      added_paragraph.update(address: address_with(added_paragraph.id))
     end
     added_paragraph
   end
@@ -122,9 +122,9 @@ class Paragraph < ApplicationRecord
     @score ||= read_attribute(:score)
   end
 
-  def branch_id_with(next_id)
-    if branch_id
-      "#{branch_id}#{Story::BRANCH_ID_SEPARATOR}#{next_id}"
+  def address_with(next_id)
+    if address
+      "#{address}#{Story::ADDRESS_SEPARATOR}#{next_id}"
     else
       next_id.to_s
     end
