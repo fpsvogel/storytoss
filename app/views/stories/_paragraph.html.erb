@@ -7,6 +7,9 @@
           <% unless edit_mode %>
             <%= link_to "Continue from here…", new_paragraph_path(paragraph), class: "story-continue" %>
           <% end %>
+          <% if paragraph.author == current_user %>
+            <%= link_to "Delete", delete_paragraph_path(paragraph), class: "story-continue", "data-turbo-method": :delete, "data-turbo-frame": "_top" %>
+          <% end %>
         </span>
           <%= render 'stories/paragraph_stats', paragraph: paragraph, reaction: reaction %>
       </div>
@@ -14,14 +17,14 @@
   </div>
 
   <% if edit_mode %>
-    <%= form_with model: @new_paragraph, url: create_paragraph_path(paragraph), method: :get, class: "add-paragraph" do |f| %>
+    <%= form_with model: @new_paragraph, url: create_paragraph_path(paragraph), class: "add-paragraph" do |f| %>
       <%= render "shared/form_errors", form: f %>
 
       <%= f.label :content, "Continue the story:" %>
       <%= f.text_area :content, autofocus: true %>
 
-      <%= f.submit "Save", class: "paper-btn" %>
-      <%= link_to "Cancel", cancel_new_paragraph_path(paragraph), class: "paper-btn" %>
+      <%= f.submit "Save", class: "paper-btn", "data-turbo-frame": "_top" %>
+      <%= link_to "Cancel", cancel_new_paragraph_path(paragraph), class: "paper-btn", "data-turbo-method": :put %>
     <% end %>
   <% end %>
 <% end %>

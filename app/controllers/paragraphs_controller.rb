@@ -10,12 +10,12 @@ class ParagraphsController < ApplicationController
                                 content: paragraph_params[:content],
                                 author: current_user)
     if @new_paragraph.save
-      flash[:success] = "You've continued the story!"
       show_story_with_new_highlighted =
         show_story_path(@new_paragraph.story,
-                        branch: @new_paragraph.address,
-                        anchor: "p#{@new_paragraph.id}")
-        redirect_to show_story_with_new_highlighted, status: :see_other
+                        branch: @new_paragraph.address)
+        redirect_to show_story_with_new_highlighted,
+                    success: "You've continued the story!",
+                    status: :see_other
     else
       render_paragraph(previous: previous, edit_mode: true)
     end
@@ -23,6 +23,22 @@ class ParagraphsController < ApplicationController
 
   def cancel_new
     render_paragraph(edit_mode: false)
+  end
+
+  def destroy
+    paragraph = Paragraph.find(params[:id])
+    story = paragraph.story
+    if paragraph.next_paragraphs.count > 0
+      redirect_to show_story_path(story),
+                  alert: "You can't delete your paragraph because the story " \
+                         "has already been continued from there.",
+                  status: :see_other
+    else
+      paragraph.destroy
+      redirect_to show_story_path(story),
+                  notice: "You've deleted your paragraph.",
+                  status: :see_other
+    end
   end
 
   def like
