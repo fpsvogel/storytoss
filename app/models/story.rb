@@ -4,6 +4,7 @@ class Story < ApplicationRecord
   has_many :paragraphs
 
   ADDRESS_SEPARATOR = "."
+  TITLE_LENGTH = 5
 
   def self.start(content:, author:)
     story = create
@@ -35,7 +36,8 @@ class Story < ApplicationRecord
   end
 
   def title
-    first_paragraph.to_s.split(" ").slice(0..4).join(" ") + " …"
+    words = first_paragraph.to_s.split(" ")
+    "#{words.slice(0..TITLE_LENGTH - 1).join(" ")}#{" …" if words.count > TITLE_LENGTH}"
   end
 
   private

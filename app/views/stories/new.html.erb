@@ -1,0 +1,12 @@
+<%# provide(:title, "New story") %>
+
+<h1>New story</h1>
+
+<%= form_with model: @story, url: create_story_path, class: "create-story" do |f| %>
+  <%= render "shared/form_errors", form: f %>
+
+  <%= f.label :content, "Write the first paragraph (max. #{Paragraph::MAX_LENGTH} characters):" %>
+  <%= f.text_area :content, autofocus: true %>
+
+  <%= f.submit "Create", class: "paper-btn" %>
+<% end %>

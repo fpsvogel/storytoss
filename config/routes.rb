@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   post   'login' , to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
 
-  get 'stories/:id', to: 'stories#show', as: :show_story
+  get  'stories/new'   , to: 'stories#new'   , as: :new_story
+  post 'stories/create', to: 'stories#create', as: :create_story
+  get  'stories/:id'   , to: 'stories#show'  , as: :show_story
 
   get    'paragraphs/:id/continue'   , to: 'paragraphs#new'        , as: :new_paragraph
   post   'paragraphs/:id/create'     , to: 'paragraphs#create'     , as: :create_paragraph

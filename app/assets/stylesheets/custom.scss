@@ -49,6 +49,33 @@ input[type=submit] {
   margin-top: 1.2rem;
 }
 
+// FORM TO CREATE A STORY
+
+.create-story {
+  textarea {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}
+
+// FORM TO ADD A PARAGRAPH
+
+.add-paragraph {
+  margin: .5rem 0;
+  textarea {
+    margin-top: .5rem;
+    width: 100%;
+  }
+  input[type=submit] {
+    margin-top: .5rem;
+    padding: .5rem;
+    display: inline-block
+  }
+  a.paper-btn { // "Cancel" button
+    padding: .5rem;
+  }
+}
+
 // STORY INDEX AND SHOW
 
 .story-continue-delete, .story-end, .story-stats, .alternative {
@@ -148,23 +175,5 @@ input[type=submit] {
     &.zero {
       visibility: hidden;
     }
-  }
-}
-
-// FORM TO ADD A PARAGRAPH
-
-.add-paragraph {
-  margin: .5rem 0;
-  textarea {
-    margin-top: .5rem;
-    width: 100%;
-  }
-  input[type=submit] {
-    margin-top: .5rem;
-    padding: .5rem;
-    display: inline-block
-  }
-  a.paper-btn { // "Cancel" button
-    padding: .5rem;
   }
 }
