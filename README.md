@@ -1,6 +1,6 @@
 <h1 align="center">✏️ Story Toss ⚾</h1>
 
-Welcome to the [Story Toss](https://storytoss.herokuapp.com/) codebase. *Note: This is a work in progress.* I am building this app as an exercise to improve my Rails testing skills. It served as a mini capstone project after I read Jason Swett's [Complete Guide to Rails Testing](https://www.codewithjason.com/complete-guide-to-rails-testing/).
+Welcome to the [Story Toss](https://storytoss.herokuapp.com/) codebase. I built this app as a capstone project after I read Jason Swett's [Complete Guide to Rails Testing](https://www.codewithjason.com/complete-guide-to-rails-testing/). You can [read all about on my blog](https://fpsvogel.com/posts/2021/pass-the-story-collaborative-writing).
 
 ### Table of Contents
 
@@ -17,7 +17,7 @@ In building this app, I followed a more test-centric development process than I 
 Here are the testing rules of thumb that I set for myself at the beginning of this project:
 
 1. When I add a feature, write tests for it before working on anything else.
-2. Don't commit before writing tests or making sure the change is covered by existing tests, unless it's a change purely in the views.
+2. Don't commit before writing tests or making sure the change is covered by existing tests. I made exceptions to this rule at the beginning and end of the project, when I was working mostly in the views and it didn't make sense to write integration tests until after several interrelated features were finished.
 3. When I'm building a model, use TDD as much as possible.
 
 By the end of the project, these rules felt less like rules and more like just plain writing code. I didn't have to remind myself as often to write tests before committing, because the habit of testing had become a more seamless part my development process. And the more I did it, the more grateful I was that I'd done so: more than once an obscure bug came up that I found within just a few minutes, thanks to my tests. I shudder to think of the hours it might otherwise have taken me to track down those bugs.
