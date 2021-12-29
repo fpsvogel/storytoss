@@ -9,11 +9,13 @@
             <span class="story-author-date">
               – <%= paragraph.author.username %> on <%= paragraph.last_updated_date %>
             </span>
-            <% unless edit_mode %>
-              <%= link_to "Continue from here…", new_paragraph_path(paragraph), class: "story-continue" %>
+            <% if paragraph.last_level? %>
+              <span class="story-end">(THE END.)</span>
+            <% elsif !edit_mode %>
+              <%= link_to "Continue from here…", new_paragraph_path(paragraph), class: "story-continue-delete" %>
             <% end %>
             <% if paragraph.author == current_user %>
-              <%= link_to "Delete", delete_paragraph_path(paragraph), class: "story-continue", "data-turbo-method": :delete, "data-turbo-frame": "_top" %>
+              <%= link_to "Delete", delete_paragraph_path(paragraph), class: "story-continue-delete", "data-turbo-method": :delete, "data-turbo-frame": "_top" %>
             <% end %>
           </div>
         </div>

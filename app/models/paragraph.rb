@@ -87,6 +87,10 @@ class Paragraph < ApplicationRecord
     updated_at.strftime('%F')
   end
 
+  def last_level?
+    level == MAX_LEVEL
+  end
+
   private
 
   def validate_level_under_maximum
