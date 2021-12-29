@@ -11,9 +11,10 @@ class Paragraph < ApplicationRecord
   alias_attribute :previous, :previous_paragraph
   has_many :next_paragraphs,
             class_name: "Paragraph",
-            foreign_key: "previous_paragraph_id"
+            foreign_key: "previous_paragraph_id",
+            dependent: :destroy
   alias_attribute :nexts, :next_paragraphs
-  has_many :reactions
+  has_many :reactions, dependent: :destroy
   has_many :likes, -> { like }, class_name: "Reaction"
   has_many :dislikes, -> { dislike }, class_name: "Reaction"
 

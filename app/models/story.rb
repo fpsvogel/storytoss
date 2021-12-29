@@ -1,7 +1,7 @@
 class Story < ApplicationRecord
   include Scorable
 
-  has_many :paragraphs
+  has_many :paragraphs, dependent: :destroy
 
   ADDRESS_SEPARATOR = "."
   TITLE_LENGTH = 5

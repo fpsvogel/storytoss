@@ -33,6 +33,11 @@ class ParagraphsController < ApplicationController
                   alert: "You can't delete your paragraph because the story " \
                          "has already been continued from there.",
                   status: :see_other
+    elsif paragraph.level == 1
+      paragraph.story.destroy
+      redirect_to stories_index_path,
+                  notice: "You've deleted your story.",
+                  status: :see_other
     else
       paragraph.destroy
       redirect_to show_story_path(story),
