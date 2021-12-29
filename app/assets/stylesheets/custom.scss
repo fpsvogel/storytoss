@@ -147,3 +147,21 @@ input[type=submit] {
     }
   }
 }
+
+// FORM TO ADD A PARAGRAPH
+
+.add-paragraph {
+  margin: .5rem 0;
+  textarea {
+    margin-top: .5rem;
+    width: 100%;
+  }
+  input[type=submit] {
+    margin-top: .5rem;
+    padding: .5rem;
+    display: inline-block
+  }
+  a.paper-btn { // "Cancel" button
+    padding: .5rem;
+  }
+}

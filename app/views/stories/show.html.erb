@@ -5,8 +5,8 @@
 <div data-controller="story">
   <% @branch.levels.each_with_index do |paragraphs, level_index| %>
     <%= render 'paragraph', paragraph: paragraphs.first,
-                            selected_paragraph_id: @branch.selected_paragraph_id,
-                            reaction: @branch.reactions[level_index] %>
+                            reaction: @branch.reactions[level_index],
+                            edit_mode: false %>
     <% paragraphs[1..-1].each_with_index do |alternative, par_index| %>
       <%= render 'alternative_preview', paragraph: alternative,
                                         story_id: @story_id,

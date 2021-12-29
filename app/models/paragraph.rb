@@ -53,7 +53,8 @@ class Paragraph < ApplicationRecord
       added_paragraph = paragraph
     else
       raise ArgumentError if content.nil? || author.nil?
-      added_paragraph = next_paragraphs.create(content: content,
+      formatted_content = content.gsub("\n", " ").gsub("\t", " ")
+      added_paragraph = next_paragraphs.create(content: formatted_content,
                                                author: author,
                                                story: story,
                                                level: level + 1)

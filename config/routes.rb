@@ -10,7 +10,9 @@ Rails.application.routes.draw do
 
   get 'stories/:id', to: 'stories#show', as: :show_story
 
-  post 'paragraphs/:id/continue', to: 'paragraphs#create', as: :create_paragraph
-  post 'paragraphs/:id/like'   , to: 'paragraphs#like'   , as: :like_paragraph
-  post 'paragraphs/:id/dislike', to: 'paragraphs#dislike', as: :dislike_paragraph
+  get  'paragraphs/:id/continue'   , to: 'paragraphs#new'        , as: :new_paragraph
+  get 'paragraphs/:id/create'     , to: 'paragraphs#create'     , as: :create_paragraph
+  get  'paragraphs/:id/cancel-new' , to: 'paragraphs#cancel_new' , as: :cancel_new_paragraph
+  post 'paragraphs/:id/like'       , to: 'paragraphs#like'       , as: :like_paragraph
+  post 'paragraphs/:id/dislike'    , to: 'paragraphs#dislike'    , as: :dislike_paragraph
 end

@@ -1,11 +1,27 @@
-<div class="paper container margin-top story-card <%= "selected" if paragraph.id ==selected_paragraph_id %>" id="p<%= paragraph.id %>" tabindex="-1" data-story-target="card" data-action="click@document->story#unhighlightSelectedParagraph">
-  <div class="card-body">
-    <div class="row margin-bottom-none">
-      <span class="card-text story-content">
-        <span class="story-level"><%= paragraph.level %>.</span><%= paragraph %><span class="card-text story-date">–<%= paragraph.last_updated_date %></span>
-        <%= link_to "Continue from here…", create_paragraph_path(paragraph), class: "story-continue" %>
-      </span>
-        <%= render 'stories/paragraph_stats', paragraph: paragraph, reaction: reaction %>
+<%= turbo_frame_tag "p#{paragraph.id}" do %>
+  <div class="paper container margin-top story-card" tabindex="-1" data-story-target="card" data-action="click@document->story#unhighlightSelectedParagraph">
+    <div class="card-body">
+      <div class="row margin-bottom-none">
+        <span class="card-text story-content">
+          <span class="story-level"><%= paragraph.level %>.</span><%= paragraph %><span class="card-text story-date">–<%= paragraph.last_updated_date %></span>
+          <% unless edit_mode %>
+            <%= link_to "Continue from here…", new_paragraph_path(paragraph), class: "story-continue" %>
+          <% end %>
+        </span>
+          <%= render 'stories/paragraph_stats', paragraph: paragraph, reaction: reaction %>
+      </div>
     </div>
   </div>
-</div>
+
+  <% if edit_mode %>
+    <%= form_with model: @new_paragraph, url: create_paragraph_path(paragraph), method: :get, class: "add-paragraph" do |f| %>
+      <%= render "shared/form_errors", form: f %>
+
+      <%= f.label :content, "Continue the story:" %>
+      <%= f.text_area :content, autofocus: true %>
+
+      <%= f.submit "Save", class: "paper-btn" %>
+      <%= link_to "Cancel", cancel_new_paragraph_path(paragraph), class: "paper-btn" %>
+    <% end %>
+  <% end %>
+<% end %>
