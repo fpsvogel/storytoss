@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'stories#index', as: :stories_index
 
+  get 'about', to: 'static_pages#about'
+
   get  'register', to: 'users#new'
   post 'register', to: 'users#create'
 
