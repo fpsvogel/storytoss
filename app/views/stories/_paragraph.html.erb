@@ -11,7 +11,7 @@
             </span>
             <% if paragraph.last_level? %>
               <span class="story-end">(THE END.)</span>
-            <% elsif !edit_mode %>
+            <% elsif !create_mode %>
               <%= link_to "Continue from here…", new_paragraph_path(paragraph), class: "story-continue-delete" %>
             <% end %>
             <% if paragraph.author == current_user %>
@@ -24,15 +24,9 @@
     </div>
   </div>
 
-  <% if edit_mode %>
-    <%= form_with model: @new_paragraph, url: create_paragraph_path(paragraph), class: "add-paragraph" do |f| %>
-      <%= render "shared/form_errors", form: f %>
+  <%= render 'shared/flash_lower' %>
 
-      <%= f.label :content, "Continue the story:" %>
-      <%= f.text_area :content, autofocus: true %>
-
-      <%= f.submit "Save", class: "paper-btn", "data-turbo-frame": "_top" %>
-      <%= link_to "Cancel", cancel_new_paragraph_path(paragraph), class: "paper-btn", "data-turbo-method": :put %>
-    <% end %>
+  <% if create_mode %>
+    <%= render 'stories/new_paragraph_form', previous_paragraph: paragraph %>
   <% end %>
 <% end %>

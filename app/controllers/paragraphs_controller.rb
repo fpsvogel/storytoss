@@ -1,7 +1,15 @@
 class ParagraphsController < ApplicationController
+  skip_before_action :require_login, only: [:new, :like, :dislike]
+
   def new
-    @new_paragraph = Paragraph.new
-    render_paragraph(edit_mode: true)
+    create_mode = if logged_in?
+                    @new_paragraph = Paragraph.new
+                    true
+                  else
+                    flash.now[:alert_lower] = "Please log in first."
+                    false
+                  end
+    render_paragraph(create_mode: create_mode)
   end
 
   def create
@@ -17,12 +25,12 @@ class ParagraphsController < ApplicationController
                     success: "You've continued the story!",
                     status: :see_other
     else
-      render_paragraph(previous: previous, edit_mode: true)
+      render_paragraph(paragraph: previous, create_mode: true)
     end
   end
 
   def cancel_new
-    render_paragraph(edit_mode: false)
+    render_paragraph(create_mode: false)
   end
 
   def destroy
@@ -47,11 +55,11 @@ class ParagraphsController < ApplicationController
   end
 
   def like
-    toggle_reaction_and_render_stats(reaction: :like)
+    toggle_reaction_and_render(reaction: :like)
   end
 
   def dislike
-    toggle_reaction_and_render_stats(reaction: :dislike)
+    toggle_reaction_and_render(reaction: :dislike)
   end
 
   private
@@ -60,19 +68,27 @@ class ParagraphsController < ApplicationController
     params.require(:paragraph).permit(:content)
   end
 
-  def render_paragraph(previous: Paragraph.find(params[:id]), edit_mode:)
+  def render_paragraph(paragraph: Paragraph.find(params[:id]),
+                       reaction: paragraph.reaction_symbol(user: current_user),
+                       create_mode:)
     render partial: "stories/paragraph",
-            locals: { paragraph: previous,
+           locals: { paragraph: paragraph,
                       selected_paragraph_id: nil,
-                      reaction: previous.reaction_symbol(user: current_user),
-                      edit_mode: edit_mode }
+                      reaction: reaction,
+                      create_mode: create_mode }
   end
 
-  def toggle_reaction_and_render_stats(reaction:)
+  def toggle_reaction_and_render(reaction:)
     paragraph = Paragraph.find(params[:id])
-    reaction_symbol = paragraph.send("toggle_#{reaction}", user: current_user)
-    render partial: "stories/paragraph_stats",
-           locals: { paragraph: paragraph,
-                     reaction: reaction_symbol }
+    reaction_toggled =
+      if logged_in?
+        paragraph.send("toggle_#{reaction}", user: current_user)
+      else
+        flash.now[:alert_lower] = "Please log in first."
+        nil
+      end
+    render_paragraph(paragraph: paragraph,
+                     reaction: reaction_toggled,
+                     create_mode: false)
   end
 end

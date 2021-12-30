@@ -1,7 +1,5 @@
-<% alert_name = { notice: "primary",
-                  success: "success",
-                  alert: "danger",
-                  alert_lower: "danger" }[type.to_sym] %>
-<div class="alert alert-<%= alert_name %> margin-top-small">
-  <%= message %>
-</div>
+<% flash.each do |type, message| %>
+  <% unless type.end_with?("_lower") %>
+    <%= render 'shared/flash_single', type: type, message: message %>
+  <% end %>
+<% end %>
