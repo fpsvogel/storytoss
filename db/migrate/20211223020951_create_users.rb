@@ -5,6 +5,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :email, null: false
       t.string :crypted_password
       t.string :salt
+      t.boolean :bot, default: false
 
       t.timestamps null: false
     end

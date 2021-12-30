@@ -1,10 +1,10 @@
 class Story < ApplicationRecord
   include Scorable
 
-  has_many :paragraphs, dependent: :destroy
-
   ADDRESS_SEPARATOR = "."
   TITLE_LENGTH = 5
+
+  has_many :paragraphs, dependent: :destroy
 
   def self.start(content:, author:)
     story = create
@@ -40,9 +40,7 @@ class Story < ApplicationRecord
     "#{words.slice(0..TITLE_LENGTH - 1).join(" ")}#{" …" if words.count > TITLE_LENGTH}"
   end
 
-  private
-
-  def calculated_score
-    @score ||= paragraphs.sum("score")
+  def score
+    paragraphs.sum("score")
   end
 end

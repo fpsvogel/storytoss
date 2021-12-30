@@ -32,9 +32,10 @@ class Reaction < ApplicationRecord
   def update_counter_cache
     likes_count = paragraph.likes.count
     dislikes_count = paragraph.dislikes.count
+    score = likes_count - dislikes_count
     paragraph.update(likes_count: likes_count,
                      dislikes_count: dislikes_count,
-                     score: likes_count - dislikes_count)
+                     score: score)
   end
 
   def toggle_to(like_boolean)

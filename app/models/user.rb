@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
 
+  BOT_EMAIL = "@storytossbots.com"
+
   has_many :paragraphs
   has_many :reactions
   has_many :liked, -> { like }, class_name: "Reaction"
@@ -28,4 +30,10 @@ class User < ApplicationRecord
             length: { maximum: 255 },
             format: { with: /\A[^@\s]+@[^@\s]+\z/,
                       message: "must be a valid email address" }
+
+  attribute :bot, :boolean, default: false
+
+  def self.bot?(email:)
+    email.end_with? BOT_EMAIL
+  end
 end

@@ -1,6 +1,9 @@
 class Paragraph < ApplicationRecord
   include Scorable
 
+  MAX_LENGTH = 280
+  MAX_LEVEL = 10
+
   belongs_to :story
   belongs_to :author,
               class_name: "User",
@@ -17,9 +20,6 @@ class Paragraph < ApplicationRecord
   has_many :reactions, dependent: :destroy
   has_many :likes, -> { like }, class_name: "Reaction"
   has_many :dislikes, -> { dislike }, class_name: "Reaction"
-
-  MAX_LENGTH = 280
-  MAX_LEVEL = 10
 
   validates :content,
             presence: true,
@@ -112,9 +112,10 @@ class Paragraph < ApplicationRecord
              .send("toggle_#{type}")
   end
 
-  def calculated_score
-    @score ||= read_attribute(:score)
-  end
+  # this caching causes problems with seeds, where there are no page requests to reset models.
+  # def calculated_score
+  #   @score ||= read_attribute(:score)
+  # end
 
   def address_with(next_id)
     if address && address != "0"

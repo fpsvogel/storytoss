@@ -1,11 +1,18 @@
-puts "Creating Static Users"
+progressbar = ProgressBar.create(
+  title: "Creating Static Users",
+  total: BOT_NAMES.count
+)
 
-User.create username: 'jane-doe',
-            email: 'jane.doe@example.com',
-            password: '012345',
-            password_confirmation: '012345'
+def create_bot(name)
+  User.create username: "#{name}-bot",
+              email: "#{name}#{User::BOT_EMAIL}",
+              password: "012345",
+              password_confirmation: "012345",
+              bot: true
+end
 
-User.create username: 'tom-smith',
-            email: 'tom.smith@example.com',
-            password: '012345',
-            password_confirmation: '012345'
+
+BOT_NAMES.each do |name|
+  create_bot(name)
+  progressbar.increment
+end
