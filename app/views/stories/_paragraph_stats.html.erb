@@ -3,6 +3,8 @@
     <%= paragraph.score_formatted %>
   </div>
   <div class="like-dislike">
-    <%= link_to "👍", like_paragraph_path(paragraph), "data-turbo-method": :post, class: ("selected" if reaction == Reaction::LIKE) %><%= link_to "👎", dislike_paragraph_path(paragraph), "data-turbo-method": :post, class: ("selected" if reaction == Reaction::DISLIKE) %>
+    <%= link_to "👍", like_paragraph_path(paragraph), "data-turbo-method": :post, class: ("selected" if reaction == Reaction::LIKE) -%>
+    <%# concat trick: from https://stackoverflow.com/questions/53167613/how-to-trim-leading-whitespace-with-in-erb-templates-in-rails-that-end-up %>
+    <% concat link_to "👎", dislike_paragraph_path(paragraph), "data-turbo-method": :post, class: ("selected" if reaction == Reaction::DISLIKE) %>
   </div>
 </div>

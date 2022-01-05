@@ -3,8 +3,12 @@
     <div class="card-body">
       <div class="row margin-bottom-none">
         <div class="card-text story-body">
-          <span class="story-level"><%= paragraph.level %>.</span>
-          <span class="story-content"><%= paragraph %></span>
+          <span class="story-level">
+            <%= paragraph.level %>.
+          </span>
+          <span class="story-content">
+            <%= paragraph %>
+          </span>
           <div class="story-footer">
             <span class="story-author-date">
               – <%= paragraph.author.username %> on <%= paragraph.last_updated_date %>
